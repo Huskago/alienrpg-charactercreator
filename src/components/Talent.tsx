@@ -20,7 +20,7 @@ export const Talent: React.FC<TalentProps> = ({
   career,
   careerSelected,
 }) => {
-    const [talent, setTalent] = useState("");
+    const [, setTalent] = useState("");
     const [, setTalentSelected] = useState(false);
     const [data, setData] = useState<TalentItem[] | undefined>(undefined);
     const [selected, setSelected] = useState(1);

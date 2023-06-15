@@ -42,7 +42,7 @@ export const Attributs: React.FC<AttributsProps> = ({
             setEmpathie(2);
             setRemainingPoints(6);
         }
-    }, [career]);
+    }, [career, careerSelected]);
 
     const setMaxValuesByCareer = (career: string) => {
         switch (career) {

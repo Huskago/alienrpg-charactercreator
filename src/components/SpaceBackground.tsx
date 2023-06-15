@@ -5,11 +5,11 @@ export const SpaceBackground = () => {
         const moveStars = () => {
             const stars = document.getElementsByClassName('star');
 
-            const moveStar = (star) => {
+            const moveStar = (star: HTMLElement) => {
                 const speed = 0.002;
                 const starSize = 2;
 
-                const currentX = parseFloat(star.dataset.x);
+                const currentX = parseFloat(star.dataset.x || '0');
                 const newX = currentX - speed;
 
                 if (newX < -starSize) {
@@ -23,7 +23,7 @@ export const SpaceBackground = () => {
 
             const animateStars = () => {
                 for (let i = 0; i < stars.length; i++) {
-                    moveStar(stars[i]);
+                    moveStar(stars[i] as HTMLElement);
                 }
                 requestAnimationFrame(animateStars);
             };
