@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    @apply font-alien
+}
+
 .space-background {
     position: fixed;
     top: 0;

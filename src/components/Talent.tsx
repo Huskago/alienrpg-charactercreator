@@ -48,7 +48,7 @@ export const Talent: React.FC<TalentProps> = ({
         <>
             <Title text="Talent" />
             {careerSelected && career ? (
-                <Card className={"-mt-7 w-96"}>
+                <Card className={"-mt-7 w-[624px]"}>
                     <List>
                         {data && data.map(({ label, value, description }, index) => (
                             <ListItem key={value} onClick={() => {
