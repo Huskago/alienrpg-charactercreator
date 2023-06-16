@@ -3,11 +3,13 @@ import { Hero } from "./components/Hero.tsx"
 import { Career } from "./components/Career.tsx"
 import { Attributs } from "./components/Attributs.tsx"
 import { Skills } from "./components/Skills.tsx";
-import { SpaceBackground } from "./components/SpaceBackground.tsx";
 import { Talent } from "./components/Talent.tsx";
 import { ThemeProvider } from "@material-tailwind/react";
+import { PersonalInfo } from "./components/PersonalInfo.tsx";
+import { SpaceBackground } from "./components/SpaceBackground.tsx";
+import {Equipments} from "./components/Equipments.tsx";
 
-function App() {
+export const App = () => {
     const [career, setCareer] = useState("")
     const [careerSelected, setCareerSelected] = useState(false)
     const [attributs, setAttributs] = useState({
@@ -31,6 +33,29 @@ function App() {
         medicalAid: 0,
     })
     const [talent, setTalent] = useState("")
+    const [selectedEquipments, setSelectedEquipments] = useState("");
+    const [personalInfo, setPersonalInfo] = useState<{
+        name: string,
+        age: string,
+        history: string,
+        job: string,
+        personality: string,
+        objective: string,
+        buddy: string,
+        rival: string,
+        image: File | null,
+    }>({
+        name: "",
+        age: "",
+        history: "",
+        job: "",
+        personality: "",
+        objective: "",
+        buddy: "",
+        rival: "",
+        image: null,
+    });
+
 
     const handleCareerChange = (selectedCareer: string) => {
         if (selectedCareer) {
@@ -71,6 +96,26 @@ function App() {
         }
     }
 
+    const handleEquipmentsChange = (selectedEquipments: string) => {
+        if (selectedEquipments) {
+            setSelectedEquipments(selectedEquipments);
+        }
+    }
+
+    const handlePersonalInfoChange = (personalInfo: {
+        name: string,
+        age: string,
+        history: string,
+        job: string,
+        personality: string,
+        objective: string,
+        buddy: string,
+        rival: string,
+        image: File | null,
+    }) => {
+        setPersonalInfo(personalInfo)
+    }
+
     return (
     <>
         <ThemeProvider>
@@ -81,18 +126,18 @@ function App() {
                     <Career onCareerSelected={handleCareerChange} />
                     <Attributs onAttributsChange={handleAttributsChange} career={career} careerSelected={careerSelected} />
                     <Skills onSkillsChange={handleSkillsChange} career={career} careerSelected={careerSelected} />
-                    {careerSelected
-                        ? <Talent onTalentSelected={handleTalentChange} career={career} careerSelected={careerSelected} />
-                        : <></>}
+                    <Talent onTalentSelected={handleTalentChange} career={career} careerSelected={careerSelected} />
+                    <Equipments onEquipmentsSelected={handleEquipmentsChange} career={career} careerSelected={careerSelected} />
+                    <PersonalInfo onPersonalInfoChange={handlePersonalInfoChange} careerSelected={careerSelected} />
                 </div>
                 <p className={"text-white"}>Carrière : {career}</p>
                 <p className={"text-white"}>Attributs : {JSON.stringify(attributs)}</p>
                 <p className={"text-white"}>Compétences : {JSON.stringify(skills)}</p>
                 <p className={"text-white"}>Talent : {talent}</p>
+                <p className={"text-white"}>Équipements : {selectedEquipments}</p>
+                <p className={"text-white"}>Informations personnelles : {JSON.stringify(personalInfo)}</p>
             </div>
         </ThemeProvider>
     </>
   )
 }
-
-export default App

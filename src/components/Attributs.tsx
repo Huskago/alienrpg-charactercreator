@@ -105,6 +105,10 @@ export const Attributs: React.FC<AttributsProps> = ({
         }
     };
 
+    useEffect(() => {
+        onAttributsChange({ force, agilite, esprit, empathie })
+    }, [force, agilite, esprit, empathie]);
+
     const handleIncrement = (attribut: string) => {
         if (remainingPoints > 0) {
             switch (attribut) {
@@ -135,8 +139,6 @@ export const Attributs: React.FC<AttributsProps> = ({
                 default:
                     break;
             }
-
-            onAttributsChange({ force, agilite, esprit, empathie })
         }
     }
 
@@ -169,8 +171,6 @@ export const Attributs: React.FC<AttributsProps> = ({
             default:
                 break;
         }
-
-        onAttributsChange({force, agilite, esprit, empathie})
     };
 
     return (

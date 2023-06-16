@@ -1,4 +1,4 @@
-interface TalentItem {
+export interface TalentItem {
     label: string;
     value: string;
     description: string;
@@ -29,7 +29,7 @@ export function getTalent(career: string): TalentItem[] | undefined {
                 {
                     label: "Esquive",
                     value: "esquive",
-                    description: "Quand on vous attaque en combat rapproché, vous pouvez esquiver. L'esquive fonctionne comme un blocage (cf. page 92), mais vous utilisez votre MOBILITÉ au lieu de votre COMBAT RAPPROCHÉ et vous ne pouvez vous en servir que pour réduire les dégâts, jamais pour contre-attaquer ou désarmer. Vous pouvez même esquiver l'attaque spéciale d'une créature (cf. chapitre 11).",
+                    description: "Quand on vous attaque en combat rapproché, vous pouvez esquiver. L'esquive fonctionne comme un blocage, mais vous utilisez votre MOBILITÉ au lieu de votre COMBAT RAPPROCHÉ et vous ne pouvez vous en servir que pour réduire les dégâts, jamais pour contre-attaquer ou désarmer. Vous pouvez même esquiver l'attaque spéciale d'une créature.",
                 },
                 {
                     label: "Passe-partout",
@@ -47,7 +47,7 @@ export function getTalent(career: string): TalentItem[] | undefined {
                 {
                     label: "Déconnade",
                     value: "déconnade",
-                    description: "Entre deux combats, vous relâchez la pression avec vos équipiers en vous charriant mutuellement. Votre NIVEAU DE STRESS et celui de tous les personnages à COURTE portée de vous baisse de 2 points (au lieu de 1) pour chaque Tour passé en lieu sûr (cf. page 104). Le bénéfice ne se cumule pas si plusieurs Marines bénéficient de ce talent.",
+                    description: "Entre deux combats, vous relâchez la pression avec vos équipiers en vous charriant mutuellement. Votre NIVEAU DE STRESS et celui de tous les personnages à COURTE portée de vous baisse de 2 points (au lieu de 1) pour chaque Tour passé en lieu sûr. Le bénéfice ne se cumule pas si plusieurs Marines bénéficient de ce talent.",
                 },
                 {
                     label: "Dépassement de soi",
@@ -57,7 +57,7 @@ export function getTalent(career: string): TalentItem[] | undefined {
                 {
                     label: "Folie meurtrière",
                     value: "folie meurtrière",
-                    description: "Quand ça commence à barder, vous n'êtes pas du genre à courir vous planquer. Au lieu de paniquer face à un danger mortel, vous exploitez votre terreur comme une arme contre l'ennemi. Vous pouvez déclencher l'effet Folie meurtrière lorsque vous faites un test de Panique (cf. page 104).",
+                    description: "Quand ça commence à barder, vous n'êtes pas du genre à courir vous planquer. Au lieu de paniquer face à un danger mortel, vous exploitez votre terreur comme une arme contre l'ennemi. Vous pouvez déclencher l'effet Folie meurtrière lorsque vous faites un test de Panique.",
                 },
             ];
         case "Marshal colonial":
@@ -70,12 +70,12 @@ export function getTalent(career: string): TalentItem[] | undefined {
                 {
                     label: "Investigateur",
                     value: "investigateur",
-                    description: "Vous remarquez ce qui échappe aux autres et vous êtes doué pour remarquer les petits détails aussi bien que pour les interpréter. Quand vous passez unTour dans une pièce ou un lieu semblable, vous pouvez effectuer un test d'OBSERVATION. Vous n'avez droit qu'à une seule tentative. Pour chaque 6 obtenu, vous pouvez poser une des questions suivantes à Maman. Maman doit vous répondre sincèrement, mais elle a le droit de vous donner des informations floues ou incomplètes : ▪ Qu'est-ce qui s'est passé ici ? ▪ Y a-t-il quelque chose de caché ici, et si oui, où ? ▪ Y a-t-il des détails curieux ici, des choses qui sortent de l'ordinaire ?",
+                    description: "Vous remarquez ce qui échappe aux autres et vous êtes doué pour remarquer les petits détails aussi bien que pour les interpréter. Quand vous passez unTour dans une pièce ou un lieu semblable, vous pouvez effectuer un test d'OBSERVATION. Vous n'avez droit qu'à une seule tentative. Pour chaque (6) obtenu, vous pouvez poser une des questions suivantes à Maman. Maman doit vous répondre sincèrement, mais elle a le droit de vous donner des informations floues ou incomplètes : ▪ Qu'est-ce qui s'est passé ici ? ▪ Y a-t-il quelque chose de caché ici, et si oui, où ? ▪ Y a-t-il des détails curieux ici, des choses qui sortent de l'ordinaire ?",
                 },
                 {
                     label: "Neutralisation",
                     value: "neutralisation",
-                    description: "Vous êtes capable de neutraliser un adversaire sans le blesser. Quand vous attaquez un adversaire humanoïde en combat rapproché, vous pouvez déclarer que vous tentez de le neutraliser. Vous bénéficiez d'un modificateur de +2 à votre attaque, mais si celle-ci réussit, vous n'infligez pas de dégâts : à la place, vous saisissez votre adversaire et vous l'immobilisez. Les () supplémentaires obtenus n'ont pas d'effet. Notez cependant qu'une telle manœuvre ne fonctionne que sur des cibles humanoïdes."
+                    description: "Vous êtes capable de neutraliser un adversaire sans le blesser. Quand vous attaquez un adversaire humanoïde en combat rapproché, vous pouvez déclarer que vous tentez de le neutraliser. Vous bénéficiez d'un modificateur de +2 à votre attaque, mais si celle-ci réussit, vous n'infligez pas de dégâts : à la place, vous saisissez votre adversaire et vous l'immobilisez. Les (6) supplémentaires obtenus n'ont pas d'effet. Notez cependant qu'une telle manœuvre ne fonctionne que sur des cibles humanoïdes."
                 },
             ];
         case "Médecin":
@@ -83,7 +83,7 @@ export function getTalent(career: string): TalentItem[] | undefined {
                 {
                     label: "Chirurgien de terrain",
                     value: "chirurgien de terrain",
-                    description: "Vous maitrisez l'art délicat qui consiste à arrêter une hémorragie ou à soigner des blessures graves. Vous bénéficiez d'un modificateur de +2 aux tests de SOINS MÉDICAUX lorsque vous traitez un patient sur le point de mourir d'une blessure critique (P. 99).",
+                    description: "Vous maitrisez l'art délicat qui consiste à arrêter une hémorragie ou à soigner des blessures graves. Vous bénéficiez d'un modificateur de +2 aux tests de SOINS MÉDICAUX lorsque vous traitez un patient sur le point de mourir d'une blessure critique.",
                 },
                 {
                     label: "Compassion",
@@ -93,7 +93,7 @@ export function getTalent(career: string): TalentItem[] | undefined {
                 {
                     label: "Présence apaisante",
                     value: "présence apaisante",
-                    description: "Les gens se détendent en votre présence. Une fois par Tour, vous pouvez réduire le NIVEAU DE STRESS d'un autre personnage situé à portée COURTE de 1 point, en plus de l'élimination de stress ordinaire (cf. page 104). Pour pouvoir employer ce talent, vous et le personnage qui espère bénéficier de votre présence apaisante devez vous trouver en lieu relativement sûr. Vous ne pouvez pas utiliser ce talent sur vous-même.",
+                    description: "Les gens se détendent en votre présence. Une fois par Tour, vous pouvez réduire le NIVEAU DE STRESS d'un autre personnage situé à portée COURTE de 1 point, en plus de l'élimination de stress ordinaire. Pour pouvoir employer ce talent, vous et le personnage qui espère bénéficier de votre présence apaisante devez vous trouver en lieu relativement sûr. Vous ne pouvez pas utiliser ce talent sur vous-même.",
                 },
             ];
         case "Officier":
@@ -111,7 +111,7 @@ export function getTalent(career: string): TalentItem[] | undefined {
                 {
                     label: "Officier de terrain",
                     value: "officier de terrain",
-                    description: "Vous pouvez vous servir de COMMANDEMENT pour donner des ordres au combat (cf. page 71) au prix d'une action rapide plutôt que d'une action lente. En pratique, ceci vous permet de donner deux ordres au cours d'un même Round.",
+                    description: "Vous pouvez vous servir de COMMANDEMENT pour donner des ordres au combat au prix d'une action rapide plutôt que d'une action lente. En pratique, ceci vous permet de donner deux ordres au cours d'un même Round.",
                 },
             ];
         case "Pilote":
@@ -137,12 +137,12 @@ export function getTalent(career: string): TalentItem[] | undefined {
                 {
                     label: "Blasé",
                     value: "blasé",
-                    description: "Vous avez déjà tout vu, tout fait. Rien ne vous surprend plus dorénavant. Une fois par acte en Mode Cinéma et une fois par séance de jeu en Mode Campagne, vous pouvez ignorer tous les 1d'un jet de dé.",
+                    description: "Vous avez déjà tout vu, tout fait. Rien ne vous surprend plus dorénavant. Une fois par acte en Mode Cinéma et une fois par séance de jeu en Mode Campagne, vous pouvez ignorer tous les (1) d'un jet de dé.",
                 },
                 {
                     label: "Coriace",
                     value: "coriace",
-                    description: "Seuls les durs à cuire survivent ici-bas. Faites un test de FORCE (l'attribut, sans aucune compétence) chaque fois que vous subissez des dégâts. Vous ne pouvez pas le forcer, et il ne compte pas comme une action. Pour chaque 6 obtenu, vous éliminez 1 point de dégâts. Si vous les éliminez tous, vous ne subissez aucun mal.",
+                    description: "Seuls les durs à cuire survivent ici-bas. Faites un test de FORCE (l'attribut, sans aucune compétence) chaque fois que vous subissez des dégâts. Vous ne pouvez pas le forcer, et il ne compte pas comme une action. Pour chaque (6) obtenu, vous éliminez 1 point de dégâts. Si vous les éliminez tous, vous ne subissez aucun mal.",
                 },
                 {
                     label: "Cran",
@@ -155,7 +155,7 @@ export function getTalent(career: string): TalentItem[] | undefined {
                 {
                     label: "Analyse",
                     value: "analyse",
-                    description: "Vous pouvez effectuer un test d'OBSERVATION pour obtenir des informations sur les reliques ou créatures extraterrestres que vous croisez et avez l'occasion d'analyser au moins pendant un Tour. Pour chaque 6 obtenu, vous pouvez poser à Maman une des questions ci-dessous : ▪ Est-ce humain ou extraterrestre ? ▪ Est-ce mort ou vivant ? ▪ Ça a quel âge ? ▪ À quoi ça sert ? ▪ Comment ça fonctionne ? ▪ Quel problème ça pourrait causer ? Maman doit répondre avec sincérité, mais peut tout à fait fournir des réponses vagues ou incomplètes. Un test d'Analyse réussi réduit également de 1 le NIVEAU DE STRESS de tous les autres PJ situés à COURTE portée, tandis qu'un échec le fait augmenter de 1.",
+                    description: "Vous pouvez effectuer un test d'OBSERVATION pour obtenir des informations sur les reliques ou créatures extraterrestres que vous croisez et avez l'occasion d'analyser au moins pendant un Tour. Pour chaque (6) obtenu, vous pouvez poser à Maman une des questions ci-dessous : ▪ Est-ce humain ou extraterrestre ? ▪ Est-ce mort ou vivant ? ▪ Ça a quel âge ? ▪ À quoi ça sert ? ▪ Comment ça fonctionne ? ▪ Quel problème ça pourrait causer ? Maman doit répondre avec sincérité, mais peut tout à fait fournir des réponses vagues ou incomplètes. Un test d'Analyse réussi réduit également de 1 le NIVEAU DE STRESS de tous les autres PJ situés à COURTE portée, tandis qu'un échec le fait augmenter de 1.",
                 },
                 {
                     label: "Curiosité",

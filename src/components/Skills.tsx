@@ -149,6 +149,36 @@ export const Skills: React.FC<SkillsProps> = ({
         }
     }
 
+    useEffect(() => {
+        onSkillsChange({
+            heavyMachinery,
+            endurance,
+            closeCombat,
+            mobility,
+            rangedCombat,
+            piloting,
+            observation,
+            comtech,
+            survival,
+            command,
+            manipulation,
+            medicalAid
+        })
+    }, [
+        heavyMachinery,
+        endurance,
+        closeCombat,
+        mobility,
+        rangedCombat,
+        piloting,
+        observation,
+        comtech,
+        survival,
+        command,
+        manipulation,
+        medicalAid
+    ])
+
     const handleIncrement = (skill: string) => {
         if (remainingPoints > 0) {
             switch (skill) {
@@ -227,21 +257,6 @@ export const Skills: React.FC<SkillsProps> = ({
                 default:
                     break;
             }
-
-            onSkillsChange({
-                heavyMachinery,
-                endurance,
-                closeCombat,
-                mobility,
-                rangedCombat,
-                piloting,
-                observation,
-                comtech,
-                survival,
-                command,
-                manipulation,
-                medicalAid
-            })
         }
     }
 
