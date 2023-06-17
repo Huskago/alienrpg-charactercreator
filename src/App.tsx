@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState} from "react"
+import { NavBar } from "./components/Navbar.tsx"
 import { Hero } from "./components/Hero.tsx"
 import { Career } from "./components/Career.tsx"
 import { Attributs } from "./components/Attributs.tsx"
@@ -8,6 +9,7 @@ import { ThemeProvider } from "@material-tailwind/react";
 import { PersonalInfo } from "./components/PersonalInfo.tsx";
 import { SpaceBackground } from "./components/SpaceBackground.tsx";
 import {Equipments} from "./components/Equipments.tsx";
+import { Footer } from "./components/Footer.tsx";
 
 export const App = () => {
     const [career, setCareer] = useState("")
@@ -44,6 +46,7 @@ export const App = () => {
         buddy: string,
         rival: string,
         image: File | null,
+        appearance: string,
     }>({
         name: "",
         age: "",
@@ -54,6 +57,7 @@ export const App = () => {
         buddy: "",
         rival: "",
         image: null,
+        appearance: "",
     });
 
 
@@ -112,6 +116,7 @@ export const App = () => {
         buddy: string,
         rival: string,
         image: File | null,
+        appearance: string,
     }) => {
         setPersonalInfo(personalInfo)
     }
@@ -121,6 +126,7 @@ export const App = () => {
         <ThemeProvider>
             <SpaceBackground />
             <div className={"relative z-10"}>
+                <NavBar />
                 <Hero />
                 <div className={"ml-36 pl-16 py-6 mt-28 border-l-4 border-primary flex flex-col gap-16"}>
                     <Career onCareerSelected={handleCareerChange} />
@@ -130,12 +136,7 @@ export const App = () => {
                     <Equipments onEquipmentsSelected={handleEquipmentsChange} career={career} careerSelected={careerSelected} />
                     <PersonalInfo onPersonalInfoChange={handlePersonalInfoChange} careerSelected={careerSelected} />
                 </div>
-                <p className={"text-white"}>Carrière : {career}</p>
-                <p className={"text-white"}>Attributs : {JSON.stringify(attributs)}</p>
-                <p className={"text-white"}>Compétences : {JSON.stringify(skills)}</p>
-                <p className={"text-white"}>Talent : {talent}</p>
-                <p className={"text-white"}>Équipements : {selectedEquipments}</p>
-                <p className={"text-white"}>Informations personnelles : {JSON.stringify(personalInfo)}</p>
+                <Footer />
             </div>
         </ThemeProvider>
     </>

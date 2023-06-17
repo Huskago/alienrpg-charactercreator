@@ -11,21 +11,35 @@ interface EquipmentsProps {
 }
 
 export const Equipments: React.FC<EquipmentsProps> = ({
-                                                          onEquipmentsSelected,
-                                                          career,
-                                                          careerSelected,
-                                                      }) => {
+  onEquipmentsSelected,
+  career,
+  careerSelected,
+}) => {
     const [selectedEquipments, setSelectedEquipments] = useState<string[]>([]);
     const [data, setData] = useState<EquipmentsItem[] | undefined>(undefined);
+    const [prevCareer, setPrevCareer] = useState("");
 
     useEffect(() => {
         if (careerSelected && career) {
+            setPrevCareer(career)
             const equipmentsData = getEquipments(career);
             if (equipmentsData) {
                 setData(equipmentsData);
             }
         }
     }, [career, careerSelected]);
+
+    useEffect(() => {
+        if (career !== prevCareer) {
+            resetEquipments();
+            setPrevCareer("");
+        }
+    }, [career, prevCareer]);
+
+    const resetEquipments = () => {
+        setSelectedEquipments([]);
+        onEquipmentsSelected(" ");
+    }
 
     const handleEquipmentsChange = (selected: string) => {
         if (selected) {

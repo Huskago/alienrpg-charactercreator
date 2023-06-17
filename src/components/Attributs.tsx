@@ -36,13 +36,17 @@ export const Attributs: React.FC<AttributsProps> = ({
 
     useEffect(() => {
         if (careerSelected && career) {
-            setForce(2);
-            setAgilite(2);
-            setEsprit(2);
-            setEmpathie(2);
-            setRemainingPoints(6);
+            resetAttributs();
         }
     }, [career, careerSelected]);
+
+    const resetAttributs = () => {
+        setForce(2);
+        setAgilite(2);
+        setEsprit(2);
+        setEmpathie(2);
+        setRemainingPoints(6);
+    }
 
     const setMaxValuesByCareer = (career: string) => {
         switch (career) {

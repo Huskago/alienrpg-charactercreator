@@ -6,6 +6,26 @@
     @apply font-alien
 }
 
+/*------------------------------------------*/
+
+::-webkit-scrollbar {
+    @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-[#1e1e1e];
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-[#888] rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#555];
+}
+
+/*------------------------------------------*/
+
 .space-background {
     position: fixed;
     top: 0;
@@ -31,10 +51,6 @@
 }
 
 /*------------------------------------------*/
-
-.navbar {
-    @apply ml-10 mt-14;
-}
 
 .title {
     @apply ml-64 mt-36;

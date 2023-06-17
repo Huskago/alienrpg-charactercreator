@@ -19,9 +19,11 @@ export const Talent: React.FC<TalentProps> = ({
     const [data, setData] = useState<TalentItem[] | undefined>(undefined);
     const [selected, setSelected] = useState(0);
     const setSelectedItem = (value: number) => setSelected(value);
+    const [prevCareer, setPrevCareer] = useState("");
 
     useEffect(() => {
         if (careerSelected && career) {
+            setPrevCareer(career)
             const talentData = getTalent(career);
             if (talentData) {
                 setData(talentData);
@@ -29,6 +31,20 @@ export const Talent: React.FC<TalentProps> = ({
             }
         }
     }, [career, careerSelected]);
+
+    useEffect(() => {
+        if (prevCareer !== career) {
+            resetTalent();
+            setPrevCareer("")
+        }
+    }, [career, prevCareer])
+
+    const resetTalent = () => {
+        setSelected(0)
+        setTalent("");
+        setTalentSelected(false);
+        onTalentSelected(" ");
+    }
 
     const handleTalentChange = (selectedTalent: string) => {
         if (selectedTalent) {

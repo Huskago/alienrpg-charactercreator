@@ -15,6 +15,7 @@ interface PersonalInfoProps {
         buddy: string,
         rival: string,
         image: File | null,
+        appearance: string,
     }) => void;
     careerSelected: boolean;
 }
@@ -50,6 +51,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
     const [rival, setRival] = useState<string>("");
     const [image, setImage] = useState<File | null>(null);
     const [resizedImageUrl, setResizedImageUrl] = useState<string | null>(null);
+    const [appearance, setAppearance] = useState<string>("");
 
     const handlePersonalInfoChange = async () => {
         let resizedImage: File | null = null;
@@ -72,6 +74,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
             buddy: buddy,
             rival: rival,
             image: resizedImage,
+            appearance: appearance,
         });
     };
 
@@ -80,7 +83,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
 
     useEffect(() => {
         handlePersonalInfoChange().then(r => r)
-    }, [name, age, history, job, personality, objective, buddy, rival, image])
+    }, [name, age, history, job, personality, objective, buddy, rival, image, appearance])
 
     return (
         <>
@@ -93,12 +96,19 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({
                                 <div className={"flex flex-col gap-4"}>
                                     <Input size={"lg"} label={"Name"} onChange={(e) => setName(e.target.value)} />
                                     <Input size={"lg"} label={"Age"} onChange={(e) => setAge(e.target.value)} />
-                                    <Textarea className={"w-96 h-40"} size={"lg"} label={"Histoire"} onChange={(e) => setHistory(e.target.value)} />
+                                    <Textarea className={"w-[420px] h-[128px]"} size={"lg"} label={"Histoire"} onChange={(e) => setHistory(e.target.value)} />
                                     <Input size={"lg"} label={"Métier"} onChange={(e) => setJob(e.target.value)} />
                                     <Input size={"lg"} label={"Personnalité"} onChange={(e) => setPersonality(e.target.value)} />
-                                    <Textarea className={"h-32"} size={"lg"} label={"Objectif"} onChange={(e) => setObjective(e.target.value)} />
+                                    <Textarea className={"h-[96px]"} size={"lg"} label={"Objectif"} onChange={(e) => setObjective(e.target.value)} />
                                     <Input size={"lg"} label={"Buddy"} onChange={(e) => setBuddy(e.target.value)} />
                                     <Input size={"lg"} label={"Rival"} onChange={(e) => setRival(e.target.value)} />
+                                </div>
+                            </form>
+                        </Card>
+                        <Card color={"transparent"} shadow={false}>
+                            <form>
+                                <div className={"flex flex-col gap-4"}>
+                                    <Textarea className={"h-[96px]"} size={"lg"} label={"Apparence"} onChange={(e) => setAppearance(e.target.value)} />
                                 </div>
                             </form>
                         </Card>
