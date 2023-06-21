@@ -260,7 +260,7 @@ export const Attributs: React.FC<AttributsProps> = ({
                             </div>
                         </div>
                         <div>
-                            <p className={"text-white"}>Points restants : {remainingPoints}</p>
+                            <p className={"text-base text-white"}>Points restants : {remainingPoints}</p>
                         </div>
                     </div>
                 </div>

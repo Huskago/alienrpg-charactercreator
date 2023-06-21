@@ -43,11 +43,11 @@ export const SpaceBackgroundAnimation = () => {
     }, []);
 
     return (
-        <div className="stars-container" ref={starsContainerRef}>
+        <div className={"relative w-full h-full backface-hidden"} ref={starsContainerRef}>
             {[...Array(50)].map((_, index) => (
                 <div
                     key={index}
-                    className="star"
+                    className={"w-[2px] h-[2px] bg-white fixed"}
                     style={{
                         top: `${Math.random() * 100}vh`,
                         left: `${Math.random() * 100}vw`,

@@ -574,7 +574,7 @@ export const Skills: React.FC<SkillsProps> = ({
                             </div>
                         </div>
                         <div>
-                            <p className={"reamining-point"}>Points restants : {remainingPoints}</p>
+                            <p className={"text-white text-base"}>Points restants : {remainingPoints}</p>
                         </div>
                     </div>
                 </div>

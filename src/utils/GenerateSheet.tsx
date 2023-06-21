@@ -1,4 +1,4 @@
-import { createCanvas, loadImage } from "canvas";
+import {createCanvas, loadImage} from "canvas";
 
 // character: {
 //         career: string;
@@ -201,9 +201,7 @@ export const generatePNG = async (character: Character) => {
         ctx.fillText(character.personalInfo.name, canvas.width/2, 200)
 
 
-        const modifiedImageDataUrl = await canvas.toDataURL("image/png")
-
-        return modifiedImageDataUrl
+        return canvas.toDataURL("image/png");
     } catch (error) {
         throw new Error(`Error while generating PNG: ${error}`)
     }

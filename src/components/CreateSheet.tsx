@@ -6,7 +6,7 @@ import {
     DialogHeader, Spinner,
     Typography
 } from "@material-tailwind/react";
-import {Fragment, useState} from "react";
+import React, {Fragment, useState} from "react";
 import {generatePNG} from "../utils/GenerateSheet.tsx";
 
 interface CreateSheetProps {
@@ -55,7 +55,7 @@ export const CreateSheet: React.FC<CreateSheetProps> = ({
     character
 }) => {
     const [sheetOpen, setSheetOpen] = useState(false);
-    const [simpleSheetOpen, setSimpleSheetOpen] = useState(false);
+    // const [simpleSheetOpen, setSimpleSheetOpen] = useState(false);
     const [completeSheetOpen, setCompleteSheetOpen] = useState(false);
     const [pngCompleteSheetOpen, setPngCompleteSheetOpen] = useState(false);
 
@@ -64,7 +64,7 @@ export const CreateSheet: React.FC<CreateSheetProps> = ({
     const [sheetImageURL, setSheetImageURL] = useState("");
 
     const handleSheetOpen = () => setSheetOpen(!sheetOpen);
-    const handleSimpleSheetOpen = () => setSimpleSheetOpen(!simpleSheetOpen);
+    // const handleSimpleSheetOpen = () => setSimpleSheetOpen(!simpleSheetOpen);
     const handleCompleteSheetOpen = () => setCompleteSheetOpen(!completeSheetOpen);
     const handlePngCompleteSheetOpen = () => setPngCompleteSheetOpen(!pngCompleteSheetOpen);
 

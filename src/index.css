@@ -26,50 +26,12 @@
 
 /*------------------------------------------*/
 
-.space-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    overflow: hidden;
-}
-
-.stars-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-}
-
-.star {
-    width: 2px;
-    height: 2px;
-    background: white;
-    position: fixed;
-}
-
-/*------------------------------------------*/
-
-.title {
-    @apply ml-64 mt-36;
-}
-
-.title h1 {
-    @apply text-4xl text-white;
-}
-
 .skills .ability {
     @apply text-base underline;
 }
 
 .skills p {
     @apply text-sm text-white;
-}
-
-.skills .reamining-point {
-    @apply text-base text-white;
 }
 
 .fade-enter {
