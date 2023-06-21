@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import { IconButton } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { CSSTransition } from 'react-transition-group'
-import {Title} from "./ui/Title.tsx";
+import { Title } from "./ui/Title.tsx";
+import { Career } from "../objets/Career.tsx";
+import { Skills } from "../objets/Skills.tsx";
 
-interface SkillsProps {
+interface SelectSkillsProps {
     onSkillsChange: (skills: {
         heavyMachinery: number,
         endurance: number,
@@ -19,11 +21,11 @@ interface SkillsProps {
         manipulation: number,
         medicalAid: number,
     }) => void,
-    career: string,
+    career: Career | undefined,
     careerSelected: boolean,
 }
 
-export const Skills: React.FC<SkillsProps> = ({
+export const SelectSkills: React.FC<SelectSkillsProps> = ({
     onSkillsChange,
     career,
     careerSelected,
@@ -63,7 +65,7 @@ export const Skills: React.FC<SkillsProps> = ({
     const [remainingPoints, setRemainingPoints] = React.useState(10)
 
     useEffect(() => {
-        setMaxValuesByCareer(career)
+        if (career) setMaxValuesByCareer(career)
     }, [career])
 
     useEffect(() => {
@@ -84,7 +86,7 @@ export const Skills: React.FC<SkillsProps> = ({
         }
     }, [career]);
 
-    const setMaxValuesByCareer = (career: string) => {
+    const setMaxValuesByCareer = (career: Career) => {
         setMaxHeavyMachinery(1)
         setMaxEndurance(1)
         setMaxCloseCombat(1)
@@ -98,54 +100,45 @@ export const Skills: React.FC<SkillsProps> = ({
         setMaxManipulation(1)
         setMaxMedicalAid(1)
 
-        switch (career) {
-            case "Agent de la compagnie":
-                setMaxComtech(3)
-                setMaxManipulation(3)
-                setMaxObservation(3)
-                break;
-            case "Gamin":
-                setMaxMobility(3)
-                setMaxObservation(3)
-                setMaxSurvival(3)
-                break;
-            case "Marine colonial":
-                setMaxRangedCombat(3)
-                setMaxCloseCombat(3)
-                setMaxEndurance(3)
-                break;
-            case "Marshal colonial":
-                setMaxRangedCombat(3)
-                setMaxManipulation(3)
-                setMaxObservation(3)
-                break;
-            case "Médecin":
-                setMaxMobility(3)
-                setMaxObservation(3)
-                setMaxMedicalAid(3)
-                break;
-            case "Officier":
-                setMaxRangedCombat(3)
-                setMaxCommand(3)
-                setMaxManipulation(3)
-                break;
-            case "Pilote":
-                setMaxRangedCombat(3)
-                setMaxComtech(3)
-                setMaxPiloting(3)
-                break;
-            case "Prolo":
-                setMaxCloseCombat(3)
-                setMaxEndurance(3)
-                setMaxHeavyMachinery(3)
-                break;
-            case "Scientifique":
-                setMaxComtech(3)
-                setMaxObservation(3)
-                setMaxSurvival(3)
-                break;
-            default:
-                break;
+        for (const skill of career.skills) {
+            switch (skill) {
+                case Skills.HeavyMachinery:
+                    setMaxHeavyMachinery(3)
+                    break;
+                case Skills.Endurance:
+                    setMaxEndurance(3)
+                    break;
+                case Skills.CloseCombat:
+                    setMaxCloseCombat(3)
+                    break;
+                case Skills.Mobility:
+                    setMaxMobility(3)
+                    break;
+                case Skills.RangedCombat:
+                    setMaxRangedCombat(3)
+                    break;
+                case Skills.Piloting:
+                    setMaxPiloting(3)
+                    break;
+                case Skills.Observation:
+                    setMaxObservation(3)
+                    break;
+                case Skills.Comtech:
+                    setMaxComtech(3)
+                    break;
+                case Skills.Survival:
+                    setMaxSurvival(3)
+                    break;
+                case Skills.Command:
+                    setMaxCommand(3)
+                    break;
+                case Skills.Manipulation:
+                    setMaxManipulation(3)
+                    break;
+                case Skills.MedicalAid:
+                    setMaxMedicalAid(3)
+                    break;
+            }
         }
     }
 

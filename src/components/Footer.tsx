@@ -1,5 +1,5 @@
 import { Typography } from "@material-tailwind/react";
-import { getVersion } from "../utils/getVersion.tsx";
+import { getVersion } from "../utils/GetVersion.tsx";
 
 export const Footer = () => {
     return (

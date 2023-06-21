@@ -194,6 +194,13 @@ export const generatePNG = async (character: Character) => {
         ctx.fillText(character.skills.medicalAid.toString(), canvas.width - (canvas.width/3 - 17), canvas.height - (canvas.height/3 + 52))
 
 
+        // Talent
+        ctx.font = "bold 26px OCR A Std Regular"
+        ctx.fillStyle = "black"
+        ctx.textAlign = "left"
+        ctx.fillText(character.talent, canvas.width - (canvas.width / 4 + 138), 190)
+
+
         // Name
         ctx.font = "bold 26px OCR A Std Regular"
         ctx.fillStyle = "black"

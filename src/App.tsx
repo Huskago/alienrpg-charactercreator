@@ -1,9 +1,9 @@
 import { useState} from "react"
 import { NavBar } from "./components/Navbar.tsx"
 import { Hero } from "./components/Hero.tsx"
-import { Career } from "./components/Career.tsx"
-import { Attributs } from "./components/Attributs.tsx"
-import { Skills } from "./components/Skills.tsx";
+import { SelectCareer } from "./components/SelectCareer.tsx"
+import { SelectAttributs } from "./components/SelectAttributs.tsx"
+import { SelectSkills } from "./components/SelectSkills.tsx";
 import { Talent } from "./components/Talent.tsx";
 import { ThemeProvider } from "@material-tailwind/react";
 import { PersonalInfo } from "./components/PersonalInfo.tsx";
@@ -11,9 +11,11 @@ import { SpaceBackground } from "./components/SpaceBackground.tsx";
 import { Equipments } from "./components/Equipments.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { CreateSheet } from "./components/CreateSheet.tsx";
+import { Career } from "./objets/Career.tsx";
 
 export const App = () => {
-    const [career, setCareer] = useState("")
+    // Career object
+    const [career, setCareer] = useState<Career>();
     const [careerSelected, setCareerSelected] = useState(false)
     const [attributs, setAttributs] = useState({
         force: 2,
@@ -62,7 +64,7 @@ export const App = () => {
     });
 
 
-    const handleCareerChange = (selectedCareer: string) => {
+    const handleCareerChange = (selectedCareer: Career) => {
         if (selectedCareer) {
             setCareer(selectedCareer);
             setCareerSelected(true);
@@ -130,9 +132,12 @@ export const App = () => {
                 <NavBar />
                 <Hero />
                 <div className={"ml-36 pl-16 py-6 mt-28 border-l-4 border-primary flex flex-col gap-16"}>
-                    <Career onCareerSelected={handleCareerChange} />
-                    <Attributs onAttributsChange={handleAttributsChange} career={career} careerSelected={careerSelected} />
-                    <Skills onSkillsChange={handleSkillsChange} career={career} careerSelected={careerSelected} />
+                    <p className={"text-white"}>Carrière : {career?.name}</p>
+                    <p className={"text-white"}>Attributs : {attributs.force} {attributs.agilite} {attributs.esprit} {attributs.empathie}</p>
+                    <p className={"text-white"}>Compétences : {skills.heavyMachinery} {skills.endurance} {skills.closeCombat} {skills.mobility} {skills.rangedCombat} {skills.piloting} {skills.observation} {skills.comtech} {skills.survival} {skills.command} {skills.manipulation} {skills.medicalAid}</p>
+                    <SelectCareer onCareerSelected={handleCareerChange} />
+                    <SelectAttributs onAttributsChange={handleAttributsChange} career={career} careerSelected={careerSelected} />
+                    <SelectSkills onSkillsChange={handleSkillsChange} career={career} careerSelected={careerSelected} />
                     <Talent onTalentSelected={handleTalentChange} career={career} careerSelected={careerSelected} />
                     <Equipments onEquipmentsSelected={handleEquipmentsChange} career={career} careerSelected={careerSelected} />
                     <PersonalInfo onPersonalInfoChange={handlePersonalInfoChange} careerSelected={careerSelected} />
