@@ -23,6 +23,16 @@ export const Footer = () => {
                                 Source Code
                             </Typography>
                         </li>
+                        <li onClick={() => window.open("https://trello.com/b/Hy17kp4T/roadmap-alienrpg-character-creator", "_blank")}>
+                            <Typography
+                                as="a"
+                                href="#"
+                                color="white"
+                                className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+                            >
+                                RoadMap
+                            </Typography>
+                        </li>
                     </ul>
                 </div>
                 <hr className="my-8 border-blue-gray-50" />
