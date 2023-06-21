@@ -8,8 +8,9 @@ import { Talent } from "./components/Talent.tsx";
 import { ThemeProvider } from "@material-tailwind/react";
 import { PersonalInfo } from "./components/PersonalInfo.tsx";
 import { SpaceBackground } from "./components/SpaceBackground.tsx";
-import {Equipments} from "./components/Equipments.tsx";
+import { Equipments } from "./components/Equipments.tsx";
 import { Footer } from "./components/Footer.tsx";
+import { CreateSheet } from "./components/CreateSheet.tsx";
 
 export const App = () => {
     const [career, setCareer] = useState("")
@@ -135,6 +136,7 @@ export const App = () => {
                     <Talent onTalentSelected={handleTalentChange} career={career} careerSelected={careerSelected} />
                     <Equipments onEquipmentsSelected={handleEquipmentsChange} career={career} careerSelected={careerSelected} />
                     <PersonalInfo onPersonalInfoChange={handlePersonalInfoChange} careerSelected={careerSelected} />
+                    <CreateSheet careerSelected={careerSelected} character={{ career: career, attributs: attributs, skills: skills, talent: talent, selectedEquipments: selectedEquipments, personalInfo: personalInfo }} />
                 </div>
                 <Footer />
             </div>
