@@ -8,21 +8,17 @@ import { SelectTalent } from "./components/SelectTalent.tsx";
 import { ThemeProvider } from "@material-tailwind/react";
 import { PersonalInfo } from "./components/PersonalInfo.tsx";
 import { SpaceBackground } from "./components/SpaceBackground.tsx";
-import { Equipments } from "./components/Equipments.tsx";
+import { SelectEquipments } from "./components/SelectEquipments.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { CreateSheet } from "./components/CreateSheet.tsx";
 import { Career } from "./objets/Career.tsx";
+import {AttributesList} from "./objets/Attributes.tsx";
 
 export const App = () => {
     // Career object
-    const [career, setCareer] = useState<Career>();
     const [careerSelected, setCareerSelected] = useState(false)
-    const [attributs, setAttributs] = useState({
-        force: 2,
-        agilite: 2,
-        esprit: 2,
-        empathie: 2,
-    })
+    const [career, setCareer] = useState<Career>();
+    const [attributs, setAttributs] = useState<AttributesList>();
     const [skills, setSkills] = useState({
         heavyMachinery: 0,
         endurance: 0,
@@ -71,12 +67,7 @@ export const App = () => {
         }
     };
 
-    const handleAttributsChange = (attributs: {
-        force: number,
-        agilite: number,
-        esprit: number,
-        empathie: number,
-    }) => {
+    const handleAttributsChange = (attributs: AttributesList) => {
         setAttributs(attributs)
     }
 
@@ -138,7 +129,7 @@ export const App = () => {
                     <SelectAttributs onAttributsChange={handleAttributsChange} career={career} careerSelected={careerSelected} />
                     <SelectSkills onSkillsChange={handleSkillsChange} career={career} careerSelected={careerSelected} />
                     <SelectTalent onTalentSelected={handleTalentChange} career={career} careerSelected={careerSelected} />
-                    <Equipments onEquipmentsSelected={handleEquipmentsChange} career={career} careerSelected={careerSelected} />
+                    <SelectEquipments onEquipmentsSelected={handleEquipmentsChange} career={career} careerSelected={careerSelected} />
                     <PersonalInfo onPersonalInfoChange={handlePersonalInfoChange} careerSelected={careerSelected} />
                     <CreateSheet careerSelected={careerSelected} character={{ career: career, attributs: attributs, skills: skills, talent: talent, selectedEquipments: selectedEquipments, personalInfo: personalInfo }} />
                 </div>

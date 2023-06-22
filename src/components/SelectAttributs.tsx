@@ -4,17 +4,12 @@ import {IconButton} from "@mui/material";
 import {Add, Remove} from "@mui/icons-material";
 import {CSSTransition} from "react-transition-group";
 import {Career} from "../objets/Career.tsx";
-import {Attributes} from "../objets/Attributes.tsx";
+import {Attribute, Attributes, AttributesList} from "../objets/Attributes.tsx";
 
 interface SelectAttributsProps {
-    onAttributsChange: (attributs: {
-        force: number;
-        agilite: number;
-        esprit: number;
-        empathie: number;
-    }) => void;
-    career: Career | undefined,
-    careerSelected: boolean,
+    onAttributsChange: (attributs: AttributesList) => void;
+    career: Career | undefined;
+    careerSelected: boolean;
 }
 
 export const SelectAttributs: React.FC<SelectAttributsProps> = ({
@@ -22,14 +17,16 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
         career,
         careerSelected,
     }) => {
-    const [force, setForce] = useState(2);
-    const [agilite, setAgilite] = useState(2);
-    const [esprit, setEsprit] = useState(2);
-    const [empathie, setEmpathie] = useState(2);
+    const [force] = useState<Attribute>(new Attribute(Attributes.Srength, 2));
+    const [agilite] = useState<Attribute>(new Attribute(Attributes.Agility, 2));
+    const [esprit] = useState<Attribute>(new Attribute(Attributes.Wits, 2));
+    const [empathie] = useState<Attribute>(new Attribute(Attributes.Empathy, 2));
+
     const [maxForce, setMaxForce] = useState(4);
     const [maxAgilite, setMaxAgilite] = useState(4);
     const [maxEsprit, setMaxEsprit] = useState(4);
     const [maxEmpathie, setMaxEmpathie] = useState(4);
+
     const [remainingPoints, setRemainingPoints] = useState(6);
 
     useEffect(() => {
@@ -43,10 +40,10 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
     }, [career, careerSelected]);
 
     const resetAttributs = () => {
-        setForce(2);
-        setAgilite(2);
-        setEsprit(2);
-        setEmpathie(2);
+        force.resetValue();
+        agilite.resetValue();
+        esprit.resetValue();
+        empathie.resetValue();
         setRemainingPoints(6);
     }
 
@@ -71,33 +68,33 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
     };
 
     useEffect(() => {
-        onAttributsChange({ force, agilite, esprit, empathie })
+        onAttributsChange(new AttributesList(force, agilite, esprit, empathie));
     }, [force, agilite, esprit, empathie]);
 
     const handleIncrement = (attribut: Attributes) => {
         if (remainingPoints > 0) {
             switch (attribut) {
                 case Attributes.Srength:
-                    if (force < maxForce) {
-                        setForce(force + 1);
+                    if (force.getValue() < maxForce) {
+                        force.incrementValue();
                         setRemainingPoints(remainingPoints - 1);
                     }
                     break;
                 case Attributes.Agility:
-                    if (agilite < maxAgilite) {
-                        setAgilite(agilite + 1);
+                    if (agilite.getValue() < maxAgilite) {
+                        agilite.incrementValue();
                         setRemainingPoints(remainingPoints - 1);
                     }
                     break;
                 case Attributes.Wits:
-                    if (esprit < maxEsprit) {
-                        setEsprit(esprit + 1);
+                    if (esprit.getValue() < maxEsprit) {
+                        esprit.incrementValue();
                         setRemainingPoints(remainingPoints - 1);
                     }
                     break;
                 case Attributes.Empathy:
-                    if (empathie < maxEmpathie) {
-                        setEmpathie(empathie + 1);
+                    if (empathie.getValue() < maxEmpathie) {
+                        empathie.incrementValue();
                         setRemainingPoints(remainingPoints - 1);
                     }
                     break;
@@ -108,26 +105,26 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
     const handleDecrement = (attribut: Attributes) => {
         switch (attribut) {
             case Attributes.Srength:
-                if (force > 2) {
-                    setForce(force - 1);
+                if (force.getValue() > 2) {
+                    force.decrementValue();
                     setRemainingPoints(remainingPoints + 1);
                 }
                 break;
             case Attributes.Agility:
-                if (agilite > 2) {
-                    setAgilite(agilite - 1);
+                if (agilite.getValue() > 2) {
+                    agilite.decrementValue();
                     setRemainingPoints(remainingPoints + 1);
                 }
                 break;
             case Attributes.Wits:
-                if (esprit > 2) {
-                    setEsprit(esprit - 1);
+                if (esprit.getValue() > 2) {
+                    esprit.decrementValue();
                     setRemainingPoints(remainingPoints + 1);
                 }
                 break;
             case Attributes.Empathy:
-                if (empathie > 2) {
-                    setEmpathie(empathie - 1);
+                if (empathie.getValue() > 2) {
+                    empathie.decrementValue();
                     setRemainingPoints(remainingPoints + 1);
                 }
                 break;
@@ -141,28 +138,28 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                     <Title text={"Attributs"} />
                     <div className={"flex flex-row gap-4"}>
                         <div className={"flex flex-col gap-4"}>
-                            <p><span className={`mr-3 ${force === 5 ? "text-amber-300" : "text-white"}`}>{force}</span>
+                            <p><span className={`mr-3 ${force.getValue() === 5 ? "text-amber-300" : "text-white"}`}>{force.getValue()}</span>
                                 <span className={`text-lg ${maxForce === 5 ? "text-amber-300 underline" : "text-white"}`}>FORCE</span></p>
-                            <p><span className={`mr-3 ${agilite === 5 ? "text-amber-300" : "text-white"}`}>{agilite}</span>
+                            <p><span className={`mr-3 ${agilite.getValue() === 5 ? "text-amber-300" : "text-white"}`}>{agilite.getValue()}</span>
                                 <span className={`text-lg ${maxAgilite === 5 ? "text-amber-300 underline" : "text-white"}`}>AGILITÉ</span></p>
-                            <p><span className={`mr-3 ${esprit === 5 ? "text-amber-300" : "text-white"}`}>{esprit}</span>
+                            <p><span className={`mr-3 ${esprit.getValue() === 5 ? "text-amber-300" : "text-white"}`}>{esprit.getValue()}</span>
                                 <span className={`text-lg ${maxEsprit === 5 ? "text-amber-300 underline" : "text-white"}`}>ESPRIT</span></p>
-                            <p><span className={`mr-3 ${empathie === 5 ? "text-amber-300" : "text-white"}`}>{empathie}</span>
+                            <p><span className={`mr-3 ${empathie.getValue() === 5 ? "text-amber-300" : "text-white"}`}>{empathie.getValue()}</span>
                                 <span className={`text-lg ${maxEmpathie === 5 ? "text-amber-300 underline" : "text-white"}`}>EMPATHIE</span></p>
                         </div>
                         <div className={"flex flex-col -mt-2 gap-1"}>
                             <div>
                                 <IconButton
                                     onClick={() => handleIncrement(Attributes.Srength)}
-                                    disabled={force >= maxForce || remainingPoints <= 0}
-                                    className={`text-white ${force >= maxForce || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    disabled={force.getValue() >= maxForce || remainingPoints <= 0}
+                                    className={`text-white ${force.getValue() >= maxForce || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
                                     onClick={() => handleDecrement(Attributes.Srength)}
-                                    disabled={force <= 2}
-                                    className={`text-white ${force <= 2 ? "opacity-50" : ""}`}
+                                    disabled={force.getValue() <= 2}
+                                    className={`text-white ${force.getValue() <= 2 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
@@ -170,15 +167,15 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                             <div>
                                 <IconButton
                                     onClick={() => handleIncrement(Attributes.Agility)}
-                                    disabled={agilite >= maxAgilite || remainingPoints <= 0}
-                                    className={`text-white ${agilite >= maxAgilite || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    disabled={agilite.getValue() >= maxAgilite || remainingPoints <= 0}
+                                    className={`text-white ${agilite.getValue() >= maxAgilite || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
                                     onClick={() => handleDecrement(Attributes.Agility)}
-                                    disabled={agilite <= 2}
-                                    className={`text-white ${agilite <= 2 ? "opacity-50" : ""}`}
+                                    disabled={agilite.getValue() <= 2}
+                                    className={`text-white ${agilite.getValue() <= 2 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
@@ -186,15 +183,15 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                             <div>
                                 <IconButton
                                     onClick={() => handleIncrement(Attributes.Wits)}
-                                    disabled={esprit >= maxEsprit || remainingPoints <= 0}
-                                    className={`text-white ${esprit >= maxEsprit || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    disabled={esprit.getValue() >= maxEsprit || remainingPoints <= 0}
+                                    className={`text-white ${esprit.getValue() >= maxEsprit || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
                                     onClick={() => handleDecrement(Attributes.Wits)}
-                                    disabled={esprit <= 2}
-                                    className={`text-white ${esprit <= 2 ? "opacity-50" : ""}`}
+                                    disabled={esprit.getValue() <= 2}
+                                    className={`text-white ${esprit.getValue() <= 2 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
@@ -202,15 +199,15 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                             <div>
                                 <IconButton
                                     onClick={() => handleIncrement(Attributes.Empathy)}
-                                    disabled={empathie >= maxEmpathie || remainingPoints <= 0}
-                                    className={`text-white ${empathie >= maxEmpathie || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    disabled={empathie.getValue() >= maxEmpathie || remainingPoints <= 0}
+                                    className={`text-white ${empathie.getValue() >= maxEmpathie || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
                                     onClick={() => handleDecrement(Attributes.Empathy)}
-                                    disabled={empathie <= 2}
-                                    className={`text-white ${empathie <= 2 ? "opacity-50" : ""}`}
+                                    disabled={empathie.getValue() <= 2}
+                                    className={`text-white ${empathie.getValue() <= 2 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
