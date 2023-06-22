@@ -1,15 +1,16 @@
 import {Attributes} from "./Attributes.tsx";
 import {Skills} from "./Skills.tsx";
 import {Talents} from "./Talents.tsx";
+import {Equipments} from "./Equipments.tsx";
 
 export class Career {
     name: string;
     keyAttribute: Attributes;
     skills: [Skills, Skills, Skills];
     talents: [Talents, Talents, Talents];
-    equipment: string[];
+    equipment: [Equipments, Equipments][]
 
-    constructor(name: string, keyAttribute: Attributes, skills: [Skills, Skills, Skills], talents: [Talents, Talents, Talents], equipment: string[]) {
+    constructor(name: string, keyAttribute: Attributes, skills: [Skills, Skills, Skills], talents: [Talents, Talents, Talents], equipment: [Equipments, Equipments][]) {
         this.name = name;
         this.keyAttribute = keyAttribute;
         this.skills = skills;
@@ -43,6 +44,6 @@ export function getCareer(name: string): Career {
 }
 
 export const careers: Career[] = [
-    new Career("Agent de la compagnie", Attributes.Wits, [Skills.Comtech, Skills.Manipulation, Skills.Observation], [Talents.PersonalSafety, Talents.TakeControl, Talents.Cunning], ["Equipement 1", "Equipement 2"]),
-    new Career("Gamin", Attributes.Agility, [Skills.Mobility, Skills.Observation, Skills.Survival], [Talents.Dodge, Talents.BeneathNotice, Talents.Nimble], ["Equipement 1", "Equipement 2"])
+    new Career("Agent de la compagnie", Attributes.Wits, [Skills.Comtech, Skills.Manipulation, Skills.Observation], [Talents.PersonalSafety, Talents.TakeControl, Talents.Cunning], [[Equipments.LeatherSuitcase, Equipments.ChromeSuitcase], [Equipments.PlatedPen, Equipments.ExceptionalWatch], [Equipments.DataTransmitterCard, Equipments.M4A3ServicePistol], [Equipments.D6NeversleepPills, Equipments.D6Naproleve]]),
+    new Career("Gamin", Attributes.Agility, [Skills.Mobility, Skills.Observation, Skills.Survival], [Talents.Dodge, Talents.BeneathNotice, Talents.Nimble], [[Equipments.FishingRod, Equipments.LaserPointer], [Equipments.Magnet, Equipments.RemoteControlledCar], [Equipments.Yoyo, Equipments.PocketVideoGameConsole], [Equipments.PersonalLocatorBeacon, Equipments.ColoredFeltPens]])
 ];
