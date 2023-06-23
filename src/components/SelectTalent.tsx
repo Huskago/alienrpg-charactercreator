@@ -182,7 +182,7 @@ export const SelectTalent: React.FC<TalentProps> = ({
                     </Card>
                 </div>
             ) : (
-                <p>Choisissez une carrière</p>
+                <></>
             )}
         </>
     );

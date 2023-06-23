@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Title } from "./ui/Title.tsx"
-import { CSSTransition } from "react-transition-group";
 import { Card, Input, Textarea } from "@material-tailwind/react";
 import resizer from 'react-image-file-resizer';
 import { PersonalInfo } from "../objets/PersonalInfo.tsx";
@@ -65,7 +64,7 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
 
     return (
         <>
-            <CSSTransition in={careerSelected} timeout={300} classNames="fade" unmountOnExit>
+            {careerSelected ? (
                 <div className={"flex flex-col gap-6"}>
                     <Title text={"Informations personnelles"} />
                     <div className={"flex flex-row gap-6"}>
@@ -105,7 +104,9 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
                         </Card>
                     </div>
                 </div>
-            </CSSTransition>
+            ) : (
+                <></>
+            )}
         </>
     )
 }

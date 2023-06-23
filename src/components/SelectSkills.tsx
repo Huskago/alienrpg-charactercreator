@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { IconButton } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
-import { CSSTransition } from 'react-transition-group'
 import { Title } from "./ui/Title.tsx";
 import { Career } from "../objets/Career.tsx";
 import { Skill, Skills, SkillsList } from "../objets/Skills.tsx";
@@ -308,7 +307,7 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
 
     return (
         <>
-            <CSSTransition in={careerSelected} timeout={300} classNames={"fade"} unmountOnExit>
+            {careerSelected && career ? (
                 <div className={"flex flex-col gap-6"}>
                     <Title text={"Compétences"} />
                     <div className={"skills flex flex-row gap-12"}>
@@ -545,7 +544,9 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
                         </div>
                     </div>
                 </div>
-            </CSSTransition>
+            ) : (
+                <></>
+            )}
         </>
     )
 }

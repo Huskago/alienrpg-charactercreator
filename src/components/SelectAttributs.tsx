@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Title } from "./ui/Title.tsx"
 import { IconButton } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
-import { CSSTransition } from "react-transition-group";
 import { Career } from "../objets/Career.tsx";
 import { Attribute, Attributes, AttributesList } from "../objets/Attributes.tsx";
 
@@ -133,7 +132,7 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
 
     return (
         <>
-            <CSSTransition in={careerSelected} timeout={300} classNames="fade" unmountOnExit>
+            {careerSelected && career ? (
                 <div className={"flex flex-col gap-6"}>
                     <Title text={"Attributs"} />
                     <div className={"flex flex-row gap-4"}>
@@ -218,7 +217,10 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                         </div>
                     </div>
                 </div>
-            </CSSTransition>
+            ) : (
+                <></>
+            )
+            }
         </>
     )
 }

@@ -61,7 +61,7 @@ export const SelectEquipments: React.FC<SelectEquipmentsProps> = ({
                     </div>
                 </div>
             ) : (
-                <p>Choisissez une carrière</p>
+                <></>
             )}
         </>
     );
