@@ -1,52 +1,31 @@
-import { useState} from "react"
+import { useState } from "react"
+import { SpaceBackground } from "./components/SpaceBackground.tsx";
 import { NavBar } from "./components/Navbar.tsx"
 import { Hero } from "./components/Hero.tsx"
-import { SelectCareer } from "./components/SelectCareer.tsx"
-import { SelectAttributs } from "./components/SelectAttributs.tsx"
-import { SelectSkills } from "./components/SelectSkills.tsx";
-import { SelectTalent } from "./components/SelectTalent.tsx";
-import { ThemeProvider } from "@material-tailwind/react";
-import { PersonalInfo } from "./components/PersonalInfo.tsx";
-import { SpaceBackground } from "./components/SpaceBackground.tsx";
-import { SelectEquipments } from "./components/SelectEquipments.tsx";
-import { Footer } from "./components/Footer.tsx";
-import { CreateSheet } from "./components/CreateSheet.tsx";
 import { Career } from "./objets/Career.tsx";
-import {AttributesList} from "./objets/Attributes.tsx";
+import { SelectCareer } from "./components/SelectCareer.tsx"
+import { AttributesList } from "./objets/Attributes.tsx";
+import { SelectAttributs } from "./components/SelectAttributs.tsx"
+import { SkillsList } from "./objets/Skills.tsx";
+import { SelectSkills } from "./components/SelectSkills.tsx";
+import { Talent } from "./objets/Talents.tsx";
+import { SelectTalent } from "./components/SelectTalent.tsx";
+import { Equipment } from "./objets/Equipments.tsx";
+import { SelectEquipments } from "./components/SelectEquipments.tsx";
+import { PersonalInfo } from "./objets/PersonalInfo.tsx";
+import { PersonalInfoForm } from "./components/PersonalInfoForm.tsx";
+import { CreateSheet } from "./components/CreateSheet.tsx";
+import { Footer } from "./components/Footer.tsx";
 
 export const App = () => {
     // Career object
-    const [careerSelected, setCareerSelected] = useState(false)
+    const [careerSelected, setCareerSelected] = useState(false);
     const [career, setCareer] = useState<Career>();
     const [attributs, setAttributs] = useState<AttributesList>();
-    const [skills, setSkills] = useState({
-        heavyMachinery: 0,
-        endurance: 0,
-        closeCombat: 0,
-        mobility: 0,
-        rangedCombat: 0,
-        piloting: 0,
-        observation: 0,
-        comtech: 0,
-        survival: 0,
-        command: 0,
-        manipulation: 0,
-        medicalAid: 0,
-    })
-    const [talent, setTalent] = useState("")
-    const [selectedEquipments, setSelectedEquipments] = useState("");
-    const [personalInfo, setPersonalInfo] = useState<{
-        name: string,
-        age: string,
-        history: string,
-        job: string,
-        personality: string,
-        objective: string,
-        buddy: string,
-        rival: string,
-        image: File | null,
-        appearance: string,
-    }>({
+    const [skills, setSkills] = useState<SkillsList>();
+    const [talent, setTalent] = useState<Talent>();
+    const [equipments, setEquipments] = useState<Equipment[]>();
+    const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({
         name: "",
         age: "",
         history: "",
@@ -59,83 +38,61 @@ export const App = () => {
         appearance: "",
     });
 
-
     const handleCareerChange = (selectedCareer: Career) => {
         if (selectedCareer) {
             setCareer(selectedCareer);
             setCareerSelected(true);
         }
+
+        resetWhenCareerChange();
     };
+
+    const resetWhenCareerChange = () => {
+        setAttributs(undefined);
+        setSkills(undefined);
+        setTalent(undefined);
+        setEquipments([]);
+    }
 
     const handleAttributsChange = (attributs: AttributesList) => {
         setAttributs(attributs)
     }
 
-    const handleSkillsChange = (skills: {
-        heavyMachinery: number,
-        endurance  : number,
-        closeCombat: number,
-        mobility: number,
-        rangedCombat: number,
-        piloting: number,
-        observation: number,
-        comtech: number,
-        survival: number,
-        command: number,
-        manipulation: number,
-        medicalAid: number,
-    }) => {
+    const handleSkillsChange = (skills: SkillsList) => {
         setSkills(skills)
     }
 
-    const handleTalentChange = (selectedTalent: string) => {
+    const handleTalentChange = (selectedTalent: Talent | undefined) => {
         if (selectedTalent) {
             setTalent(selectedTalent);
         }
     }
 
-    const handleEquipmentsChange = (selectedEquipments: string) => {
-        if (selectedEquipments) {
-            setSelectedEquipments(selectedEquipments);
-        }
+    const handleEquipmentsChange = (selectedEquipments: Equipment[]) => {
+        setEquipments(selectedEquipments);
     }
 
-    const handlePersonalInfoChange = (personalInfo: {
-        name: string,
-        age: string,
-        history: string,
-        job: string,
-        personality: string,
-        objective: string,
-        buddy: string,
-        rival: string,
-        image: File | null,
-        appearance: string,
-    }) => {
+    const handlePersonalInfoChange = (personalInfo: PersonalInfo) => {
         setPersonalInfo(personalInfo)
     }
 
     return (
     <>
-        <ThemeProvider>
-            <SpaceBackground />
-            <div className={"relative z-10"}>
-                <NavBar />
-                <Hero />
-                <div className={"ml-36 pl-16 py-6 mt-28 border-l-4 border-primary flex flex-col gap-16"}>
-                    <p className={"text-white"}>Carrière : {career?.name}</p>
-                    <p className={"text-white"}> Equipement : {selectedEquipments}</p>
-                    <SelectCareer onCareerSelected={handleCareerChange} />
-                    <SelectAttributs onAttributsChange={handleAttributsChange} career={career} careerSelected={careerSelected} />
-                    <SelectSkills onSkillsChange={handleSkillsChange} career={career} careerSelected={careerSelected} />
-                    <SelectTalent onTalentSelected={handleTalentChange} career={career} careerSelected={careerSelected} />
-                    <SelectEquipments onEquipmentsSelected={handleEquipmentsChange} career={career} careerSelected={careerSelected} />
-                    <PersonalInfo onPersonalInfoChange={handlePersonalInfoChange} careerSelected={careerSelected} />
-                    <CreateSheet careerSelected={careerSelected} character={{ career: career, attributs: attributs, skills: skills, talent: talent, selectedEquipments: selectedEquipments, personalInfo: personalInfo }} />
-                </div>
-                <Footer />
+        <SpaceBackground starSpeed={0.25} starSize={2} />
+        <div className={"relative z-10"}>
+            <NavBar />
+            <Hero />
+            <div className={"ml-36 pl-16 py-6 mt-28 border-l-4 border-primary flex flex-col gap-16"}>
+                <SelectCareer onCareerSelected={handleCareerChange} />
+                <SelectAttributs onAttributsChange={handleAttributsChange} career={career} careerSelected={careerSelected} />
+                <SelectSkills onSkillsChange={handleSkillsChange} career={career} careerSelected={careerSelected} />
+                <SelectTalent onTalentSelected={handleTalentChange} career={career} careerSelected={careerSelected} />
+                <SelectEquipments onEquipmentsSelected={handleEquipmentsChange} career={career} careerSelected={careerSelected} />
+                <PersonalInfoForm onPersonalInfoChange={handlePersonalInfoChange} careerSelected={careerSelected} />
+                {/*<CreateSheet careerSelected={careerSelected} character={{ career: career, attributs: attributs, skills: skills, talent: talent, selectedEquipments: selectedEquipments, personalInfo: personalInfo }} />*/}
             </div>
-        </ThemeProvider>
+            <Footer />
+        </div>
     </>
   )
 }
