@@ -89,7 +89,7 @@ export const App = () => {
                 <SelectTalent onTalentSelected={handleTalentChange} career={career} careerSelected={careerSelected} />
                 <SelectEquipments onEquipmentsSelected={handleEquipmentsChange} career={career} careerSelected={careerSelected} />
                 <PersonalInfoForm onPersonalInfoChange={handlePersonalInfoChange} careerSelected={careerSelected} />
-                {/*<CreateSheet careerSelected={careerSelected} character={{ career: career, attributs: attributs, skills: skills, talent: talent, selectedEquipments: selectedEquipments, personalInfo: personalInfo }} />*/}
+                <CreateSheet careerSelected={careerSelected} character={{ career: career, attributs: attributs, skills: skills, talent: talent, equipments: equipments, personalInfo: personalInfo }} />
             </div>
             <Footer />
         </div>

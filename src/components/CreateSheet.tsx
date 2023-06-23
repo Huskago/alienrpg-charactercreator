@@ -6,48 +6,27 @@ import {
     DialogHeader, Spinner,
     Typography
 } from "@material-tailwind/react";
-import React, {Fragment, useState} from "react";
-import {generatePNG} from "../utils/GenerateSheet.tsx";
+import React, { Fragment, useState } from "react";
+import { generatePNG } from "../utils/GenerateSheet.tsx";
+import { Career } from "../objets/Career.tsx";
+import { AttributesList } from "../objets/Attributes.tsx";
+import { SkillsList } from "../objets/Skills.tsx";
+import { Talent } from "../objets/Talents.tsx";
+import { Equipment } from "../objets/Equipments.tsx";
+import { PersonalInfo } from "../objets/PersonalInfo.tsx";
+
+export interface Character {
+    career: Career | undefined;
+    attributs: AttributesList | undefined;
+    skills: SkillsList | undefined;
+    talent: Talent | undefined;
+    equipments: Equipment[] | undefined;
+    personalInfo: PersonalInfo | undefined;
+}
 
 interface CreateSheetProps {
     careerSelected: boolean;
-    character: {
-        career: string;
-        attributs: {
-            force: number;
-            agilite: number;
-            esprit: number;
-            empathie: number;
-        }
-        skills: {
-            heavyMachinery: number;
-            endurance: number;
-            closeCombat: number;
-            mobility: number;
-            rangedCombat: number;
-            piloting: number;
-            observation: number;
-            comtech: number;
-            survival: number;
-            command: number;
-            manipulation: number;
-            medicalAid: number;
-        }
-        talent: string;
-        selectedEquipments: string;
-        personalInfo: {
-            name: string;
-            age: string;
-            history: string;
-            job: string;
-            personality: string;
-            objective: string;
-            buddy: string;
-            rival: string;
-            image: File | null;
-            appearance: string;
-        }
-    }
+    character: Character
 }
 
 export const CreateSheet: React.FC<CreateSheetProps> = ({
