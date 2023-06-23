@@ -3,21 +3,11 @@ import { Title } from "./ui/Title.tsx"
 import { CSSTransition } from "react-transition-group";
 import { Card, Input, Textarea } from "@material-tailwind/react";
 import resizer from 'react-image-file-resizer';
+import { PersonalInfo } from "../objets/PersonalInfo.tsx";
 
-interface PersonalInfoProps {
-    onPersonalInfoChange: (personalInfo: {
-        name: string,
-        age: string,
-        history: string,
-        job: string,
-        personality: string,
-        objective: string,
-        buddy: string,
-        rival: string,
-        image: File | null,
-        appearance: string,
-    }) => void;
+interface PersonalInfoFormProps {
     careerSelected: boolean;
+    onPersonalInfoChange: (personalInfo: PersonalInfo) => void;
 }
 
 const resizeImage = (file: File) => {
@@ -37,7 +27,7 @@ const resizeImage = (file: File) => {
     })
 }
 
-export const PersonalInfo: React.FC<PersonalInfoProps> = ({
+export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
     onPersonalInfoChange,
     careerSelected,
     }) => {
