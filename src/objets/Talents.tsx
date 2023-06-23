@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-class Talent {
+export class Talent {
     name: string;
     description: string;
 

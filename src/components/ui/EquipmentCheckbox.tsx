@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Checkbox } from "@material-tailwind/react";
 import { Equipment } from "../../objets/Equipments.tsx";
 

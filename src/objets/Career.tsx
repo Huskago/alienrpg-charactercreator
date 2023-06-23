@@ -40,6 +40,7 @@ export class Career {
 }
 
 export function getCareer(name: string): Career {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return careers.find(career => career.getName() === name)!;
 }
 

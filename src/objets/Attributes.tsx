@@ -1,6 +1,6 @@
 export class Attribute {
-    public type: Attributes;
-    public value: number;
+    type: Attributes;
+    value: number;
 
     constructor(type: Attributes, value: number) {
         this.type = type;
