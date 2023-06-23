@@ -47,6 +47,7 @@ export const EquipmentCheckbox: React.FC<EquipmentCheckboxProps> = ({
             <div className="flex flex-row items-center">
                 <div className={"flex flex-row items-center w-[512px]"}>
                     <Checkbox
+                        key={checkbox1.name}
                         value={checkbox1.name}
                         checked={isChecked1}
                         onChange={handleCheckbox1Change}
@@ -56,6 +57,7 @@ export const EquipmentCheckbox: React.FC<EquipmentCheckboxProps> = ({
                 <p className={"mx-2.5"}>OU</p>
                 <div className={"flex flex-row items-center w-[512px]"}>
                     <Checkbox
+                        key={checkbox2.name}
                         value={checkbox2.name}
                         checked={isChecked2}
                         onChange={handleCheckbox2Change}

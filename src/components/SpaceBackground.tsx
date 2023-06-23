@@ -48,10 +48,6 @@ export const SpaceBackground: React.FC<SpaceBackgroundProps> = ({ starSpeed, sta
         return () => clearInterval(interval);
     }, [starSize, starSpeed]);
 
-    useEffect(() => {
-        console.log(stars.length)
-    }, [stars.length]);
-
     return (
         <div
             style={{

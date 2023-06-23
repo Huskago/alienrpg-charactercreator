@@ -29,7 +29,7 @@ export const SelectCareer: React.FC<SelectCareerProps> = ({ onCareerSelected }) 
                     onChange={(event) => handleCareerChange(event)}
                 >
                     {careers.map((career) => (
-                        <Option value={career.getName()}>
+                        <Option key={career.getName()} value={career.getName()}>
                             {career.getName()}
                         </Option>
                     ))}
