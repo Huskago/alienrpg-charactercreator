@@ -54,22 +54,10 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
             setResizedImageUrl(resizedImageUrl);
         }
 
-        onPersonalInfoChange({
-            name: name,
-            age: age,
-            history: history,
-            job: job,
-            personality: personality,
-            objective: objective,
-            buddy: buddy,
-            rival: rival,
-            image: resizedImage,
-            appearance: appearance,
-        });
+        const info = new PersonalInfo(name, age, history, job, personality, objective, buddy, rival, resizedImage, appearance);
+
+        onPersonalInfoChange(info);
     };
-
-
-
 
     useEffect(() => {
         handlePersonalInfoChange().then(r => r)
