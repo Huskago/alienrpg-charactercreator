@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {Title} from "./ui/Title.tsx"
-import {IconButton} from "@mui/material";
-import {Add, Remove} from "@mui/icons-material";
-import {CSSTransition} from "react-transition-group";
-import {Career} from "../objets/Career.tsx";
-import {Attribute, Attributes, AttributesList} from "../objets/Attributes.tsx";
+import React, { useEffect, useState } from "react";
+import { Title } from "./ui/Title.tsx"
+import { IconButton } from "@mui/material";
+import { Add, Remove } from "@mui/icons-material";
+import { CSSTransition } from "react-transition-group";
+import { Career } from "../objets/Career.tsx";
+import { Attribute, Attributes, AttributesList } from "../objets/Attributes.tsx";
 
 interface SelectAttributsProps {
-    onAttributsChange: (attributs: AttributesList) => void;
-    career: Career | undefined;
     careerSelected: boolean;
+    career: Career | undefined;
+    onAttributsChange: (attributs: AttributesList) => void;
 }
 
 export const SelectAttributs: React.FC<SelectAttributsProps> = ({
@@ -52,7 +52,7 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
         setMaxAgilite(4);
         setMaxEsprit(4);
         setMaxEmpathie(4);
-        switch (career.keyAttribute) {
+        switch (career.getKeyAttribute()) {
             case Attributes.Srength:
                 setMaxForce(5);
                 break;
@@ -69,7 +69,7 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
 
     useEffect(() => {
         onAttributsChange(new AttributesList(force, agilite, esprit, empathie));
-    }, [force, agilite, esprit, empathie]);
+    }, [force.getValue(), agilite.getValue(), esprit.getValue(), empathie.getValue()]);
 
     const handleIncrement = (attribut: Attributes) => {
         if (remainingPoints > 0) {

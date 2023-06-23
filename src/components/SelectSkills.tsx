@@ -4,25 +4,12 @@ import { Add, Remove } from "@mui/icons-material";
 import { CSSTransition } from 'react-transition-group'
 import { Title } from "./ui/Title.tsx";
 import { Career } from "../objets/Career.tsx";
-import { Skills } from "../objets/Skills.tsx";
+import { Skill, Skills, SkillsList } from "../objets/Skills.tsx";
 
 interface SelectSkillsProps {
-    onSkillsChange: (skills: {
-        heavyMachinery: number,
-        endurance: number,
-        closeCombat: number,
-        mobility: number,
-        rangedCombat: number,
-        piloting: number,
-        observation: number,
-        comtech: number,
-        survival: number,
-        command: number,
-        manipulation: number,
-        medicalAid: number,
-    }) => void,
-    career: Career | undefined,
     careerSelected: boolean,
+    career: Career | undefined,
+    onSkillsChange: (skills: SkillsList) => void,
 }
 
 export const SelectSkills: React.FC<SelectSkillsProps> = ({
@@ -30,21 +17,21 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
     career,
     careerSelected,
 }) => {
-    const [heavyMachinery, setHeavyMachinery] = React.useState(0)
-    const [endurance, setEndurance] = React.useState(0)
-    const [closeCombat, setCloseCombat] = React.useState(0)
+    const [heavyMachinery] = React.useState<Skill>(new Skill(Skills.HeavyMachinery, 0))
+    const [endurance] = React.useState<Skill>(new Skill(Skills.Endurance, 0))
+    const [closeCombat] = React.useState<Skill>(new Skill(Skills.CloseCombat, 0))
 
-    const [mobility, setMobility] = React.useState(0)
-    const [rangedCombat, setRangedCombat] = React.useState(0)
-    const [piloting, setPiloting] = React.useState(0)
+    const [mobility] = React.useState<Skill>(new Skill(Skills.Mobility, 0))
+    const [rangedCombat] = React.useState<Skill>(new Skill(Skills.RangedCombat, 0))
+    const [piloting] = React.useState<Skill>(new Skill(Skills.Piloting, 0))
 
-    const [observation, setObservation] = React.useState(0)
-    const [comtech, setComtech] = React.useState(0)
-    const [survival, setSurvival] = React.useState(0)
+    const [observation] = React.useState<Skill>(new Skill(Skills.Observation, 0))
+    const [comtech] = React.useState<Skill>(new Skill(Skills.Comtech, 0))
+    const [survival] = React.useState<Skill>(new Skill(Skills.Survival, 0))
 
-    const [command, setCommand] = React.useState(0)
-    const [manipulation, setManipulation] = React.useState(0)
-    const [medicalAid, setMedicalAid] = React.useState(0)
+    const [command] = React.useState<Skill>(new Skill(Skills.Command, 0))
+    const [manipulation] = React.useState<Skill>(new Skill(Skills.Manipulation, 0))
+    const [medicalAid] = React.useState<Skill>(new Skill(Skills.MedicalAid, 0))
 
     const [maxHeavyMachinery, setMaxHeavyMachinery] = React.useState(1)
     const [maxEndurance, setMaxEndurance] = React.useState(1)
@@ -70,21 +57,25 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
 
     useEffect(() => {
         if (careerSelected && career) {
-            setHeavyMachinery(0)
-            setEndurance(0)
-            setCloseCombat(0)
-            setMobility(0)
-            setRangedCombat(0)
-            setPiloting(0)
-            setObservation(0)
-            setComtech(0)
-            setSurvival(0)
-            setCommand(0)
-            setManipulation(0)
-            setMedicalAid(0)
+            resetSkills()
             setRemainingPoints(10)
         }
     }, [career]);
+
+    const resetSkills = () => {
+        heavyMachinery.resetValue();
+        endurance.resetValue();
+        closeCombat.resetValue();
+        mobility.resetValue();
+        rangedCombat.resetValue();
+        piloting.resetValue();
+        observation.resetValue();
+        comtech.resetValue();
+        survival.resetValue();
+        command.resetValue();
+        manipulation.resetValue();
+        medicalAid.resetValue();
+    }
 
     const setMaxValuesByCareer = (career: Career) => {
         setMaxHeavyMachinery(1)
@@ -100,7 +91,7 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
         setMaxManipulation(1)
         setMaxMedicalAid(1)
 
-        for (const skill of career.skills) {
+        for (const skill of career.getSkills()) {
             switch (skill) {
                 case Skills.HeavyMachinery:
                     setMaxHeavyMachinery(3)
@@ -143,191 +134,174 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
     }
 
     useEffect(() => {
-        onSkillsChange({
-            heavyMachinery,
-            endurance,
-            closeCombat,
-            mobility,
-            rangedCombat,
-            piloting,
-            observation,
-            comtech,
-            survival,
-            command,
-            manipulation,
-            medicalAid
-        })
+        onSkillsChange(new SkillsList(heavyMachinery, endurance, closeCombat, mobility, rangedCombat, piloting, observation, comtech, survival, command, manipulation, medicalAid))
     }, [
-        heavyMachinery,
-        endurance,
-        closeCombat,
-        mobility,
-        rangedCombat,
-        piloting,
-        observation,
-        comtech,
-        survival,
-        command,
-        manipulation,
-        medicalAid
+        heavyMachinery.getValue(),
+        endurance.getValue(),
+        closeCombat.getValue(),
+        mobility.getValue(),
+        rangedCombat.getValue(),
+        piloting.getValue(),
+        observation.getValue(),
+        comtech.getValue(),
+        survival.getValue(),
+        command.getValue(),
+        manipulation.getValue(),
+        medicalAid.getValue(),
     ])
 
-    const handleIncrement = (skill: string) => {
+    const handleIncrement = (skill: Skills) => {
         if (remainingPoints > 0) {
             switch (skill) {
-                case "heavyMachinery":
-                    if (heavyMachinery < maxHeavyMachinery) {
-                        setHeavyMachinery(heavyMachinery + 1)
+                case Skills.HeavyMachinery:
+                    if (heavyMachinery.getValue() < maxHeavyMachinery) {
+                        heavyMachinery.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "endurance":
-                    if (endurance < maxEndurance) {
-                        setEndurance(endurance + 1)
+                case Skills.Endurance:
+                    if (endurance.getValue() < maxEndurance) {
+                        endurance.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "closeCombat":
-                    if (closeCombat < maxCloseCombat) {
-                        setCloseCombat(closeCombat + 1)
+                case Skills.CloseCombat:
+                    if (closeCombat.getValue() < maxCloseCombat) {
+                        closeCombat.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "mobility":
-                    if (mobility < maxMobility) {
-                        setMobility(mobility + 1)
+                case Skills.Mobility:
+                    if (mobility.getValue() < maxMobility) {
+                        mobility.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "rangedCombat":
-                    if (rangedCombat < maxRangedCombat) {
-                        setRangedCombat(rangedCombat + 1)
+                case Skills.RangedCombat:
+                    if (rangedCombat.getValue() < maxRangedCombat) {
+                        rangedCombat.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "piloting":
-                    if (piloting < maxPiloting) {
-                        setPiloting(piloting + 1)
+                case Skills.Piloting:
+                    if (piloting.getValue() < maxPiloting) {
+                        piloting.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "observation":
-                    if (observation < maxObservation) {
-                        setObservation(observation + 1)
+                case Skills.Observation:
+                    if (observation.getValue() < maxObservation) {
+                        observation.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "comtech":
-                    if (comtech < maxComtech) {
-                        setComtech(comtech + 1)
+                case Skills.Comtech:
+                    if (comtech.getValue() < maxComtech) {
+                        comtech.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "survival":
-                    if (survival < maxSurvival) {
-                        setSurvival(survival + 1)
+                case Skills.Survival:
+                    if (survival.getValue() < maxSurvival) {
+                        survival.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "command":
-                    if (command < maxCommand) {
-                        setCommand(command + 1)
+                case Skills.Command:
+                    if (command.getValue() < maxCommand) {
+                        command.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "manipulation":
-                    if (manipulation < maxManipulation) {
-                        setManipulation(manipulation + 1)
+                case Skills.Manipulation:
+                    if (manipulation.getValue() < maxManipulation) {
+                        manipulation.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
                     break;
-                case "medicalAid":
-                    if (medicalAid < maxMedicalAid) {
-                        setMedicalAid(medicalAid + 1)
+                case Skills.MedicalAid:
+                    if (medicalAid.getValue() < maxMedicalAid) {
+                        medicalAid.incrementValue();
                         setRemainingPoints(remainingPoints - 1)
                     }
-                    break;
-                default:
                     break;
             }
         }
     }
 
-    const handleDecrement = (skill: string) => {
+    const handleDecrement = (skill: Skills) => {
         switch (skill) {
-            case "heavyMachinery":
-                if (heavyMachinery > 0) {
-                    setHeavyMachinery(heavyMachinery - 1)
+            case Skills.HeavyMachinery:
+                if (heavyMachinery.getValue() > 0) {
+                    heavyMachinery.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "endurance":
-                if (endurance > 0) {
-                    setEndurance(endurance - 1)
+            case Skills.Endurance:
+                if (endurance.getValue() > 0) {
+                    endurance.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "closeCombat":
-                if (closeCombat > 0) {
-                    setCloseCombat(closeCombat - 1)
+            case Skills.CloseCombat:
+                if (closeCombat.getValue() > 0) {
+                    closeCombat.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "mobility":
-                if (mobility > 0) {
-                    setMobility(mobility - 1)
+            case Skills.Mobility:
+                if (mobility.getValue() > 0) {
+                    mobility.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "rangedCombat":
-                if (rangedCombat > 0) {
-                    setRangedCombat(rangedCombat - 1)
+            case Skills.RangedCombat:
+                if (rangedCombat.getValue() > 0) {
+                    rangedCombat.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "piloting":
-                if (piloting > 0) {
-                    setPiloting(piloting - 1)
+            case Skills.Piloting:
+                if (piloting.getValue() > 0) {
+                    piloting.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "observation":
-                if (observation > 0) {
-                    setObservation(observation - 1)
+            case Skills.Observation:
+                if (observation.getValue() > 0) {
+                    observation.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "comtech":
-                if (comtech > 0) {
-                    setComtech(comtech - 1)
+            case Skills.Comtech:
+                if (comtech.getValue() > 0) {
+                    comtech.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "survival":
-                if (survival > 0) {
-                    setSurvival(survival - 1)
+            case Skills.Survival:
+                if (survival.getValue() > 0) {
+                    survival.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "command":
-                if (command > 0) {
-                    setCommand(command - 1)
+            case Skills.Command:
+                if (command.getValue() > 0) {
+                    command.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "manipulation":
-                if (manipulation > 0) {
-                    setManipulation(manipulation - 1)
+            case Skills.Manipulation:
+                if (manipulation.getValue() > 0) {
+                    manipulation.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
                 break;
-            case "medicalAid":
-                if (medicalAid > 0) {
-                    setMedicalAid(medicalAid - 1)
+            case Skills.MedicalAid:
+                if (medicalAid.getValue() > 0) {
+                    medicalAid.decrementValue();
                     setRemainingPoints(remainingPoints + 1)
                 }
-                break;
-            default:
                 break;
         }
     }
@@ -341,55 +315,55 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
                         <div className={"flex flex-col gap-4"}>
                             <p className={"ability"}>FORCE</p>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${heavyMachinery === 3 ? "text-amber-300" : "text-white"}`}>{heavyMachinery}</span>
+                                <span className={`mr-1 ${heavyMachinery.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{heavyMachinery.getValue()}</span>
                                 <span className={`ml-1.5 ${maxHeavyMachinery === 3 ? "text-amber-300 underline" : "text-white"}`}>{`Machines lourdes`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("heavyMachinery")}
-                                    disabled={heavyMachinery >= maxHeavyMachinery || remainingPoints <= 0}
-                                    className={`text-white ${heavyMachinery >= maxHeavyMachinery || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.HeavyMachinery)}
+                                    disabled={heavyMachinery.getValue() >= maxHeavyMachinery || remainingPoints <= 0}
+                                    className={`text-white ${heavyMachinery.getValue() >= maxHeavyMachinery || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("heavyMachinery")}
-                                    disabled={heavyMachinery <= 0}
-                                    className={`text-white ${heavyMachinery <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.HeavyMachinery)}
+                                    disabled={heavyMachinery.getValue() <= 0}
+                                    className={`text-white ${heavyMachinery.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
                             </div>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${endurance === 3 ? "text-amber-300" : "text-white"}`}>{endurance}</span>
+                                <span className={`mr-1 ${endurance.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{endurance.getValue()}</span>
                                 <span className={`ml-1.5 ${maxEndurance === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Endurances`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("endurance")}
-                                    disabled={endurance >= maxEndurance || remainingPoints <= 0}
-                                    className={`text-white ${endurance >= maxEndurance || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.Endurance)}
+                                    disabled={endurance.getValue() >= maxEndurance || remainingPoints <= 0}
+                                    className={`text-white ${endurance.getValue() >= maxEndurance || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("endurance")}
-                                    disabled={endurance <= 0}
-                                    className={`text-white ${endurance <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.Endurance)}
+                                    disabled={endurance.getValue() <= 0}
+                                    className={`text-white ${endurance.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
                             </div>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${closeCombat === 3 ? "text-amber-300" : "text-white"}`}>{closeCombat}</span>
+                                <span className={`mr-1 ${closeCombat.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{closeCombat.getValue()}</span>
                                 <span className={`ml-1.5 ${maxCloseCombat === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Combat rapproché`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("closeCombat")}
-                                    disabled={closeCombat >= maxCloseCombat || remainingPoints <= 0}
-                                    className={`text-white ${closeCombat >= maxCloseCombat || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.CloseCombat)}
+                                    disabled={closeCombat.getValue() >= maxCloseCombat || remainingPoints <= 0}
+                                    className={`text-white ${closeCombat.getValue() >= maxCloseCombat || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("closeCombat")}
-                                    disabled={closeCombat <= 0}
-                                    className={`text-white ${closeCombat <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.CloseCombat)}
+                                    disabled={closeCombat.getValue() <= 0}
+                                    className={`text-white ${closeCombat.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
@@ -398,55 +372,55 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
                         <div className={"flex flex-col gap-4"}>
                             <p className={"ability"}>AGILITÉ</p>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${mobility === 3 ? "text-amber-300" : "text-white"}`}>{mobility}</span>
+                                <span className={`mr-1 ${mobility.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{mobility.getValue()}</span>
                                 <span className={`ml-1.5 ${maxMobility === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Mobilité`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("mobility")}
-                                    disabled={mobility >= maxMobility || remainingPoints <= 0}
-                                    className={`text-white ${mobility >= maxMobility || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.Mobility)}
+                                    disabled={mobility.getValue() >= maxMobility || remainingPoints <= 0}
+                                    className={`text-white ${mobility.getValue() >= maxMobility || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("mobility")}
-                                    disabled={mobility <= 0}
-                                    className={`text-white ${mobility <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.Mobility)}
+                                    disabled={mobility.getValue() <= 0}
+                                    className={`text-white ${mobility.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
                             </div>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${rangedCombat === 3 ? "text-amber-300" : "text-white"}`}>{rangedCombat}</span>
+                                <span className={`mr-1 ${rangedCombat.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{rangedCombat.getValue()}</span>
                                 <span className={`ml-1.5 ${maxRangedCombat === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Combat à distance`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("rangedCombat")}
-                                    disabled={rangedCombat >= maxRangedCombat || remainingPoints <= 0}
-                                    className={`text-white ${rangedCombat >= maxRangedCombat || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.RangedCombat)}
+                                    disabled={rangedCombat.getValue() >= maxRangedCombat || remainingPoints <= 0}
+                                    className={`text-white ${rangedCombat.getValue() >= maxRangedCombat || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("rangedCombat")}
-                                    disabled={rangedCombat <= 0}
-                                    className={`text-white ${rangedCombat <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.RangedCombat)}
+                                    disabled={rangedCombat.getValue() <= 0}
+                                    className={`text-white ${rangedCombat.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
                             </div>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${piloting === 3 ? "text-amber-300" : "text-white"}`}>{piloting}</span>
+                                <span className={`mr-1 ${piloting.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{piloting.getValue()}</span>
                                 <span className={`ml-1.5 ${maxPiloting === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Pilotage`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("piloting")}
-                                    disabled={piloting >= maxPiloting || remainingPoints <= 0}
-                                    className={`text-white ${piloting >= maxPiloting || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.Piloting)}
+                                    disabled={piloting.getValue() >= maxPiloting || remainingPoints <= 0}
+                                    className={`text-white ${piloting.getValue() >= maxPiloting || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("piloting")}
-                                    disabled={piloting <= 0}
-                                    className={`text-white ${piloting <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.Piloting)}
+                                    disabled={piloting.getValue() <= 0}
+                                    className={`text-white ${piloting.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
@@ -455,55 +429,55 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
                         <div className={"flex flex-col gap-4"}>
                             <p className={"ability"}>ESPRIT</p>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${observation === 3 ? "text-amber-300" : "text-white"}`}>{observation}</span>
+                                <span className={`mr-1 ${observation.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{observation.getValue()}</span>
                                 <span className={`ml-1.5 ${maxObservation === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Observation`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("observation")}
-                                    disabled={observation >= maxObservation || remainingPoints <= 0}
-                                    className={`text-white ${observation >= maxObservation || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.Observation)}
+                                    disabled={observation.getValue() >= maxObservation || remainingPoints <= 0}
+                                    className={`text-white ${observation.getValue() >= maxObservation || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("observation")}
-                                    disabled={observation <= 0}
-                                    className={`text-white ${observation <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.Observation)}
+                                    disabled={observation.getValue() <= 0}
+                                    className={`text-white ${observation.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
                             </div>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${comtech === 3 ? "text-amber-300" : "text-white"}`}>{comtech}</span>
+                                <span className={`mr-1 ${comtech.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{comtech.getValue()}</span>
                                 <span className={`ml-1.5 ${maxComtech === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Comtech`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("comtech")}
-                                    disabled={comtech >= maxComtech || remainingPoints <= 0}
-                                    className={`text-white ${comtech >= maxComtech || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.Comtech)}
+                                    disabled={comtech.getValue() >= maxComtech || remainingPoints <= 0}
+                                    className={`text-white ${comtech.getValue() >= maxComtech || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("comtech")}
-                                    disabled={comtech <= 0}
-                                    className={`text-white ${comtech <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.Comtech)}
+                                    disabled={comtech.getValue() <= 0}
+                                    className={`text-white ${comtech.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
                             </div>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${survival === 3 ? "text-amber-300" : "text-white"}`}>{survival}</span>
+                                <span className={`mr-1 ${survival.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{survival.getValue()}</span>
                                 <span className={`ml-1.5 ${maxSurvival === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Survie`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("survival")}
-                                    disabled={survival >= maxSurvival || remainingPoints <= 0}
-                                    className={`text-white ${survival >= maxSurvival || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.Survival)}
+                                    disabled={survival.getValue() >= maxSurvival || remainingPoints <= 0}
+                                    className={`text-white ${survival.getValue() >= maxSurvival || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("survival")}
-                                    disabled={survival <= 0}
-                                    className={`text-white ${survival <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.Survival)}
+                                    disabled={survival.getValue() <= 0}
+                                    className={`text-white ${survival.getValue()<= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
@@ -512,55 +486,55 @@ export const SelectSkills: React.FC<SelectSkillsProps> = ({
                         <div className={"flex flex-col gap-4 "}>
                             <p className={"ability"}>EMPATHIE</p>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${command === 3 ? "text-amber-300" : "text-white"}`}>{command}</span>
+                                <span className={`mr-1 ${command.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{command.getValue()}</span>
                                 <span className={`ml-1.5 ${maxCommand === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Commandement`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("command")}
-                                    disabled={command >= maxCommand || remainingPoints <= 0}
-                                    className={`text-white ${command >= maxCommand || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.Command)}
+                                    disabled={command.getValue() >= maxCommand || remainingPoints <= 0}
+                                    className={`text-white ${command.getValue() >= maxCommand || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("command")}
-                                    disabled={command <= 0}
-                                    className={`text-white ${command <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.Command)}
+                                    disabled={command.getValue() <= 0}
+                                    className={`text-white ${command.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
                             </div>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${manipulation === 3 ? "text-amber-300" : "text-white"}`}>{manipulation}</span>
+                                <span className={`mr-1 ${manipulation.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{manipulation.getValue()}</span>
                                 <span className={`ml-1.5 ${maxManipulation === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Manipulation`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("manipulation")}
-                                    disabled={manipulation >= maxManipulation || remainingPoints <= 0}
-                                    className={`text-white ${manipulation >= maxManipulation || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.Manipulation)}
+                                    disabled={manipulation.getValue() >= maxManipulation || remainingPoints <= 0}
+                                    className={`text-white ${manipulation.getValue() >= maxManipulation || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("manipulation")}
-                                    disabled={manipulation <= 0}
-                                    className={`text-white ${manipulation <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.Manipulation)}
+                                    disabled={manipulation.getValue() <= 0}
+                                    className={`text-white ${manipulation.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
                             </div>
                             <div className={"flex flex-row items-center"}>
-                                <span className={`mr-1 ${medicalAid === 3 ? "text-amber-300" : "text-white"}`}>{medicalAid}</span>
+                                <span className={`mr-1 ${medicalAid.getValue() === 3 ? "text-amber-300" : "text-white"}`}>{medicalAid.getValue()}</span>
                                 <span className={`ml-1.5 ${maxMedicalAid === 3 ? "text-amber-300 underline" : "text-white"}`}>{` Soins médicaux`}</span>
                                 <IconButton
-                                    onClick={() => handleIncrement("medicalAid")}
-                                    disabled={medicalAid >= maxMedicalAid || remainingPoints <= 0}
-                                    className={`text-white ${medicalAid >= maxMedicalAid || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleIncrement(Skills.MedicalAid)}
+                                    disabled={medicalAid.getValue() >= maxMedicalAid || remainingPoints <= 0}
+                                    className={`text-white ${medicalAid.getValue() >= maxMedicalAid || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => handleDecrement("medicalAid")}
-                                    disabled={medicalAid <= 0}
-                                    className={`text-white ${medicalAid <= 0 ? "opacity-50" : ""}`}
+                                    onClick={() => handleDecrement(Skills.MedicalAid)}
+                                    disabled={medicalAid.getValue() <= 0}
+                                    className={`text-white ${medicalAid.getValue() <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>

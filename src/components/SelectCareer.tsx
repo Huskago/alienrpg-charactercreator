@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Title } from "./ui/Title.tsx";
 import { Option, Select } from "@material-tailwind/react";
-import {Career, careers, getCareer} from "../objets/Career.tsx";
+import { Career, careers, getCareer } from "../objets/Career.tsx";
 
 interface SelectCareerProps {
     onCareerSelected: (selectedCareer: Career) => void;
@@ -9,12 +9,10 @@ interface SelectCareerProps {
 
 export const SelectCareer: React.FC<SelectCareerProps> = ({ onCareerSelected }) => {
     const [career, setCareer] = useState<Career>()
-    const [,setCareerSelected] = useState(false)
 
     const handleCareerChange = (selectedCareer: string | undefined) => {
         if (selectedCareer) {
             setCareer(getCareer(selectedCareer));
-            setCareerSelected(true);
             onCareerSelected(getCareer(selectedCareer));
         }
     };

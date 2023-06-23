@@ -49,7 +49,7 @@ export const SelectEquipments: React.FC<SelectEquipmentsProps> = ({
                     <Title text="Equipements" />
                     <div>
                         <Card className={"mt-5 w-[624px]"}>
-                            {career.equipment.map((equipments) => (
+                            {career.getEquipment().map((equipments) => (
                                         <EquipmentCheckbox
                                             checkbox1={getEquipment(equipments[0])}
                                             checkbox2={getEquipment(equipments[1])}
