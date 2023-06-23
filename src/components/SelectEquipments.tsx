@@ -1,71 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { Title } from "./ui/Title.tsx";
-import { EquipmentsItem, getEquipments } from "./utils/EquipmentsList.tsx";
 import { EquipmentCheckbox } from "./ui/EquipmentCheckbox.tsx";
 import { Card } from "@material-tailwind/react";
+import { Career } from "../objets/Career.tsx";
+import { Equipment, getEquipment } from "../objets/Equipments.tsx";
 
-interface EquipmentsProps {
-    onEquipmentsSelected: (selectedEquipments: string) => void;
-    career: string;
+interface SelectEquipmentsProps {
     careerSelected: boolean;
+    career: Career | undefined;
+    onEquipmentsSelected: (selectedEquipments: Equipment[]) => void;
 }
 
-export const Equipments: React.FC<EquipmentsProps> = ({
-  onEquipmentsSelected,
-  career,
+export const SelectEquipments: React.FC<SelectEquipmentsProps> = ({
   careerSelected,
+  career,
+  onEquipmentsSelected,
 }) => {
-    const [selectedEquipments, setSelectedEquipments] = useState<string[]>([]);
-    const [data, setData] = useState<EquipmentsItem[] | undefined>(undefined);
-    const [prevCareer, setPrevCareer] = useState("");
+    const [equipmentsSelected, setEquipmentsSelected] = useState<Equipment[]>([]);
+    const [prevCareer, setPrevCareer] = useState<Career>();
 
     useEffect(() => {
         if (careerSelected && career) {
             setPrevCareer(career)
-            const equipmentsData = getEquipments(career);
-            if (equipmentsData) {
-                setData(equipmentsData);
-            }
         }
     }, [career, careerSelected]);
 
     useEffect(() => {
         if (career !== prevCareer) {
             resetEquipments();
-            setPrevCareer("");
+            setPrevCareer(career);
         }
     }, [career, prevCareer]);
 
     const resetEquipments = () => {
-        setSelectedEquipments([]);
-        onEquipmentsSelected(" ");
+        setEquipmentsSelected([]);
+        onEquipmentsSelected([]);
     }
 
-    const handleEquipmentsChange = (selected: string) => {
-        if (selected) {
-            if (
-                selectedEquipments.length < 2 &&
-                !selectedEquipments.includes(selected)
-            ) {
-                setSelectedEquipments((prevSelectedEquipments) => [
-                    ...prevSelectedEquipments,
-                    selected,
-                ]);
-            } else {
-                removeEquipment(selected);
-            }
-        }
+    const handleEquipmentsChange = (equipmentsSelected: Equipment[]) => {
+        setEquipmentsSelected(equipmentsSelected);
+        onEquipmentsSelected(equipmentsSelected);
     };
-
-    const removeEquipment = (selected: string) => {
-        setSelectedEquipments((prevSelectedEquipments) =>
-            prevSelectedEquipments.filter((equipment) => equipment !== selected)
-        );
-    };
-
-    useEffect(() => {
-        onEquipmentsSelected(selectedEquipments.join(", "));
-    }, [selectedEquipments, onEquipmentsSelected]);
 
     return (
         <>
@@ -73,17 +48,16 @@ export const Equipments: React.FC<EquipmentsProps> = ({
                 <div>
                     <Title text="Equipements" />
                     <div>
-                        {data &&
-                            data.map(({ checkbox1, checkbox2 }) => (
-                                <Card className={"mt-5 w-[624px]"}>
-                                    <EquipmentCheckbox
-                                        checkbox1={checkbox1}
-                                        checkbox2={checkbox2}
-                                        onEquipmentSelected={handleEquipmentsChange}
-                                        selectedEquipments={selectedEquipments}
-                                    />
-                                </Card>
-                            ))}
+                        <Card className={"mt-5 w-[624px]"}>
+                            {career.equipment.map((equipments) => (
+                                        <EquipmentCheckbox
+                                            checkbox1={getEquipment(equipments[0])}
+                                            checkbox2={getEquipment(equipments[1])}
+                                            onEquipmentSelected={handleEquipmentsChange}
+                                            equipments={equipmentsSelected}
+                                        />
+                                ))}
+                        </Card>
                     </div>
                 </div>
             ) : (

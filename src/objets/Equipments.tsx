@@ -1,17 +1,10 @@
 interface IEquipment {
     name: string;
     weight: number;
-    isWeapon?: boolean;
-    bonus?: number;
-    damage?: number;
-    range?: Range;
-    isArmor?: boolean;
-    protection?: number;
     count?: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-class Equipment {
+export class Equipment {
     name: string;
     weight: number;
     count: number;
@@ -87,7 +80,7 @@ export enum Equipments {
     SeegsonCSeriesMagneticTapeRecorder
 }
 
-export function getEquipment(equipment: Equipments): IEquipment | undefined {
+export function getEquipment(equipment: Equipments): IEquipment {
     switch (equipment) {
         case Equipments.LeatherSuitcase:
             return { name: "Valise en cuir", weight: 0.0 }
