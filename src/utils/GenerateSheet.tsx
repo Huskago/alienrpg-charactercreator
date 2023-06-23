@@ -1,16 +1,17 @@
 import { createCanvas, loadImage } from "canvas";
 import { Character } from "../components/CreateSheet.tsx";
 
+// @ts-ignore
 const wrapText = function(ctx, text, x, y, maxWidth, lineHeight) {
-    let words = text.split(" ")
+    const words = text.split(" ")
     let line = ""
     let testLine = ""
-    let lineArray= []
+    const lineArray= []
 
-    for (var n = 0; n < words.length; n++) {
+    for (let n = 0; n < words.length; n++) {
         testLine += `${words[n]} `
-        let metrics = ctx.measureText(testLine)
-        let testWidth = metrics.width
+        const metrics = ctx.measureText(testLine)
+        const testWidth = metrics.width
         if (testWidth > maxWidth && n > 0) {
             lineArray.push([line, x, y])
             y += lineHeight
