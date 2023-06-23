@@ -4,7 +4,7 @@ import { getVersion } from "../utils/GetVersion.tsx";
 export const Footer = () => {
     return (
         <>
-            <footer className="w-full bg-secondary p-8">
+            <footer className="z-10 w-full bg-secondary p-8 mt-[calc(100vh-58.7vh)]">
                 <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-secondary text-center md:justify-between">
                     <div className={"flex flex-row items-center gap-4"}>
                         <img src="/icon.png" alt="logo" className="w-10" />
