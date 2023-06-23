@@ -32,13 +32,13 @@ export class AttributesList {
     force: Attribute;
     agilite: Attribute;
     wits: Attribute;
-    empathie: Attribute;
+    empathy: Attribute;
 
-    constructor(force: Attribute, agilite: Attribute, wits: Attribute, empathie: Attribute) {
+    constructor(force: Attribute, agilite: Attribute, wits: Attribute, empathy: Attribute) {
         this.force = force;
         this.agilite = agilite;
         this.wits = wits;
-        this.empathie = empathie;
+        this.empathy = empathy;
     }
 
     getForce() {
@@ -53,8 +53,8 @@ export class AttributesList {
         return this.wits;
     }
 
-    getEmpathie() {
-        return this.empathie;
+    getEmpathy() {
+        return this.empathy;
     }
 }
 

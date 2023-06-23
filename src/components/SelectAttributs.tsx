@@ -20,12 +20,12 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
     const [force] = useState<Attribute>(new Attribute(Attributes.Srength, 2));
     const [agilite] = useState<Attribute>(new Attribute(Attributes.Agility, 2));
     const [esprit] = useState<Attribute>(new Attribute(Attributes.Wits, 2));
-    const [empathie] = useState<Attribute>(new Attribute(Attributes.Empathy, 2));
+    const [empathy] = useState<Attribute>(new Attribute(Attributes.Empathy, 2));
 
     const [maxForce, setMaxForce] = useState(4);
     const [maxAgilite, setMaxAgilite] = useState(4);
     const [maxEsprit, setMaxEsprit] = useState(4);
-    const [maxEmpathie, setMaxEmpathie] = useState(4);
+    const [maxEmpathy, setMaxEmpathy] = useState(4);
 
     const [remainingPoints, setRemainingPoints] = useState(6);
 
@@ -43,7 +43,7 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
         force.resetValue();
         agilite.resetValue();
         esprit.resetValue();
-        empathie.resetValue();
+        empathy.resetValue();
         setRemainingPoints(6);
     }
 
@@ -51,7 +51,7 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
         setMaxForce(4);
         setMaxAgilite(4);
         setMaxEsprit(4);
-        setMaxEmpathie(4);
+        setMaxEmpathy(4);
         switch (career.getKeyAttribute()) {
             case Attributes.Srength:
                 setMaxForce(5);
@@ -63,13 +63,13 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                 setMaxEsprit(5);
                 break;
             case Attributes.Empathy:
-                setMaxEmpathie(5);
+                setMaxEmpathy(5);
         }
     };
 
     useEffect(() => {
-        onAttributsChange(new AttributesList(force, agilite, esprit, empathie));
-    }, [force.getValue(), agilite.getValue(), esprit.getValue(), empathie.getValue()]);
+        onAttributsChange(new AttributesList(force, agilite, esprit, empathy));
+    }, [force.getValue(), agilite.getValue(), esprit.getValue(), empathy.getValue()]);
 
     const handleIncrement = (attribut: Attributes) => {
         if (remainingPoints > 0) {
@@ -93,8 +93,8 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                     }
                     break;
                 case Attributes.Empathy:
-                    if (empathie.getValue() < maxEmpathie) {
-                        empathie.incrementValue();
+                    if (empathy.getValue() < maxEmpathy) {
+                        empathy.incrementValue();
                         setRemainingPoints(remainingPoints - 1);
                     }
                     break;
@@ -123,8 +123,8 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                 }
                 break;
             case Attributes.Empathy:
-                if (empathie.getValue() > 2) {
-                    empathie.decrementValue();
+                if (empathy.getValue() > 2) {
+                    empathy.decrementValue();
                     setRemainingPoints(remainingPoints + 1);
                 }
                 break;
@@ -144,8 +144,8 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                                 <span className={`text-lg ${maxAgilite === 5 ? "text-amber-300 underline" : "text-white"}`}>AGILITÉ</span></p>
                             <p><span className={`mr-3 ${esprit.getValue() === 5 ? "text-amber-300" : "text-white"}`}>{esprit.getValue()}</span>
                                 <span className={`text-lg ${maxEsprit === 5 ? "text-amber-300 underline" : "text-white"}`}>ESPRIT</span></p>
-                            <p><span className={`mr-3 ${empathie.getValue() === 5 ? "text-amber-300" : "text-white"}`}>{empathie.getValue()}</span>
-                                <span className={`text-lg ${maxEmpathie === 5 ? "text-amber-300 underline" : "text-white"}`}>EMPATHIE</span></p>
+                            <p><span className={`mr-3 ${empathy.getValue() === 5 ? "text-amber-300" : "text-white"}`}>{empathy.getValue()}</span>
+                                <span className={`text-lg ${maxEmpathy === 5 ? "text-amber-300 underline" : "text-white"}`}>EMPATHIE</span></p>
                         </div>
                         <div className={"flex flex-col -mt-2 gap-1"}>
                             <div>
@@ -199,15 +199,15 @@ export const SelectAttributs: React.FC<SelectAttributsProps> = ({
                             <div>
                                 <IconButton
                                     onClick={() => handleIncrement(Attributes.Empathy)}
-                                    disabled={empathie.getValue() >= maxEmpathie || remainingPoints <= 0}
-                                    className={`text-white ${empathie.getValue() >= maxEmpathie || remainingPoints <= 0 ? "opacity-50" : ""}`}
+                                    disabled={empathy.getValue() >= maxEmpathy || remainingPoints <= 0}
+                                    className={`text-white ${empathy.getValue() >= maxEmpathy || remainingPoints <= 0 ? "opacity-50" : ""}`}
                                 >
                                     <Add className="text-white" />
                                 </IconButton>
                                 <IconButton
                                     onClick={() => handleDecrement(Attributes.Empathy)}
-                                    disabled={empathie.getValue() <= 2}
-                                    className={`text-white ${empathie.getValue() <= 2 ? "opacity-50" : ""}`}
+                                    disabled={empathy.getValue() <= 2}
+                                    className={`text-white ${empathy.getValue() <= 2 ? "opacity-50" : ""}`}
                                 >
                                     <Remove className="text-white" />
                                 </IconButton>
